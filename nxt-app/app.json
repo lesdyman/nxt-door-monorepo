@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "next_door",
+    "slug": "next-door",
+    "scheme": "next_door",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.lesdyman.nextdoor"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#F2B134",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "com.lesdyman.nextdoor"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-status-bar"
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "2db1c533-66c7-4e92-9d63-9cf64d12cd04"
+      }
+    },
+    "owner": "lesdyman"
+  }
+}

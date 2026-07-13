@@ -1,0 +1,12 @@
+# dependencies (each package also gitignores its own node_modules)
+node_modules/
+
+# macOS
+.DS_Store
+
+# logs
+*.log
+
+# env
+.env
+.env.local

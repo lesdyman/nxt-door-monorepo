@@ -1,0 +1,46 @@
+import { useEffect } from 'react'
+import { useColorScheme } from 'react-native'
+
+import { useFonts } from 'expo-font'
+import { SplashScreen, Stack } from 'expo-router'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { TamaguiProvider, Theme } from 'tamagui'
+
+import { tamaguiConfig } from '../tamagui.config'
+
+SplashScreen.preventAutoHideAsync()
+
+export default function RootLayout() {
+  const colorScheme = useColorScheme()
+
+  const [loaded] = useFonts({
+    Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
+    InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
+  })
+
+  useEffect(() => {
+    if (loaded) SplashScreen.hideAsync()
+  }, [loaded])
+
+  if (!loaded) return null
+
+  return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <TamaguiProvider config={tamaguiConfig} defaultTheme="dark">
+        <Theme name={colorScheme === 'light' ? 'light' : 'dark'}>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(tabs)" />
+            <Stack.Screen name="listing/[id]" />
+            <Stack.Screen name="edit-listing/[id]" />
+            <Stack.Screen name="info-center" />
+            <Stack.Screen name="my-listings" />
+            <Stack.Screen name="order-history" />
+            <Stack.Screen name="saved" />
+            <Stack.Screen name="help" />
+            <Stack.Screen name="new-post" options={{ presentation: 'modal', headerShown: false }} />
+          </Stack>
+        </Theme>
+      </TamaguiProvider>
+    </GestureHandlerRootView>
+  )
+}

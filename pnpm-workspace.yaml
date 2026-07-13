@@ -1,0 +1,6 @@
+packages:
+  - "nxt-app"
+  - "nxt-backend"
+  - "packages/*"
+allowBuilds:
+  unrs-resolver: true
