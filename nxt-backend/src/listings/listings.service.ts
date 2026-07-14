@@ -1,27 +1,38 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateListingDto } from './dto/create-listing.dto';
 import { UpdateListingDto } from './dto/update-listing.dto';
 
 @Injectable()
 export class ListingsService {
+  constructor(private readonly prisma: PrismaService) {}
+
   create(createListingDto: CreateListingDto) {
-    return 'This action adds a new listing';
+    return this.prisma.listing.create({ data: createListingDto });
   }
 
   findAll() {
-    return `This action returns all listings`;
+    return this.prisma.listing.findMany();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} listing`;
+  async findOne(id: number) {
+    const listing = await this.prisma.listing.findUnique({ where: { id } });
+    if (!listing) {
+      throw new NotFoundException(`Listing #${id} not found`);
+    }
+    return listing;
   }
 
-  update(id: number, updateListingDto: UpdateListingDto) {
-    return `This action updates a #${id} listing`;
+  async update(id: number, updateListingDto: UpdateListingDto) {
+    await this.findOne(id);
+    return this.prisma.listing.update({
+      where: { id },
+      data: updateListingDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} listing`;
+  async remove(id: number) {
+    await this.findOne(id);
+    return this.prisma.listing.delete({ where: { id } });
   }
 }
