@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { ScrollView, TouchableOpacity } from 'react-native'
 
-import axios from 'axios'
 import { useRouter } from 'expo-router'
 import { SendHorizontal, X } from 'lucide-react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -18,6 +17,8 @@ import PickupLocation from '@screens/new-post/components/PickupLocation'
 import PriceQuantity from '@screens/new-post/components/PriceQuantity'
 import SideSelect from '@screens/new-post/components/SideSelect'
 import TitleInput from '@screens/new-post/components/TitleInput'
+import useCreateListing from '@screens/new-post/hooks/useCreateListing'
+import uploadsService from '@services/uploadsService'
 
 import places from '../data/places'
 import users from '../data/users'
@@ -25,6 +26,7 @@ import users from '../data/users'
 export default function NewPostModal() {
   const colors = useColors()
   const router = useRouter()
+  const createListing = useCreateListing()
 
   const [side, setSide] = useState<Side>('offer')
   const [category, setCategory] = useState<string>('')
@@ -44,12 +46,7 @@ export default function NewPostModal() {
   const uploadImages = async (): Promise<string[]> => {
     const urls: string[] = []
     for (const uri of photos) {
-      const formData = new FormData()
-      formData.append('file', { uri, name: 'photo.jpg', type: 'image/jpeg' } as unknown as Blob)
-      const res = await axios.post('http://localhost:3000/uploads', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      })
-      urls.push(res.data.url)
+      urls.push(await uploadsService.uploadImage(uri))
     }
     return urls
   }
@@ -70,7 +67,7 @@ export default function NewPostModal() {
       longitude: coords.longitude,
       address: currentPlace?.address ?? '',
     }
-    await axios.post('http://localhost:3000/listings', payload)
+    await createListing.mutateAsync(payload)
     router.back()
   }
 
@@ -105,7 +102,7 @@ export default function NewPostModal() {
       </ScrollView>
 
       <YStack px="$4" py="$3" style={{ backgroundColor: colors.background }}>
-        <BrandButton size="$4" onPress={handleAddPost}>
+        <BrandButton size="$4" onPress={handleAddPost} disabled={createListing.isPending}>
           <SendHorizontal size={20} color={colors.white} />
           <Text fontSize={16} lineHeight={24} fontWeight="600" color={colors.white}>
             Add Post

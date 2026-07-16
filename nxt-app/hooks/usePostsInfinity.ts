@@ -1,28 +1,15 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
-import axios from 'axios'
 
-import { Listing } from '@constants/types/Listing'
-import transformListingData, { ListingResponse } from '@utils/transformListingData'
+import listingsService from '@services/listingsService'
 
 const usePostsInfinity = (side?: string, limit: number = 20) => {
   return useInfiniteQuery({
     queryKey: ['posts-infinite', side, limit],
-    queryFn: ({ pageParam }) => getPostsPage(side, limit, pageParam),
+    queryFn: ({ pageParam }) => listingsService.getListings({ side, limit, offset: pageParam }),
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) =>
       lastPage.length < limit ? undefined : allPages.length * limit,
   })
-}
-
-const getPostsPage = async (
-  side: string | undefined,
-  limit: number,
-  offset: number
-): Promise<Listing[]> => {
-  const response = await axios.get('http://localhost:3000/listings', {
-    params: { side, limit, offset },
-  })
-  return response.data.map((listing: ListingResponse) => transformListingData(listing))
 }
 
 export default usePostsInfinity
