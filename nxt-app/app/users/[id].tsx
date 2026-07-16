@@ -1,6 +1,6 @@
 import { Stack, useLocalSearchParams } from 'expo-router'
 
-import AuthorDetails from '@components/author-details/AuthorDetails'
+import AuthorDetails from '@screens/author-details/AuthorDetails'
 
 import users from '../../data/users'
 

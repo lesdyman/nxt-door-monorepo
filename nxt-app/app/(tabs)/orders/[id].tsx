@@ -1,3 +1,3 @@
-import ListingDetailScreen from '@components/listing-detail/ListingDetailScreen'
+import ListingDetailScreen from '@screens/listing-detail/ListingDetailScreen'
 
 export default ListingDetailScreen

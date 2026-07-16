@@ -3,8 +3,8 @@ import { Pressable, View } from 'react-native'
 import { Tabs, useRouter } from 'expo-router'
 import { CirclePlus, ClipboardList, Home, Store, User } from 'lucide-react-native'
 
-import AnimatedTabBar from '@components/shared/AnimatedTabBar'
-import SearchModal from '@components/shared/SearchModal'
+import AnimatedTabBar from '@components/AnimatedTabBar'
+import SearchModal from '@components/SearchModal'
 import useColors from '@constants/useColors'
 
 import { SearchProvider } from '../../contexts/SearchContext'

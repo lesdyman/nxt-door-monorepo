@@ -31,7 +31,7 @@ module.exports = defineConfig([
             // Third-party
             ['^@?\\w'],
             // Alias imports
-            ['^@(constants|components|assets|contexts|hooks|utils)/'],
+            ['^@(constants|components|screens|assets|contexts|hooks|utils)/'],
             // Local relative
             ['^\\.'],
           ],

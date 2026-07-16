@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router'
 
-import Help from '@components/help/Help'
+import Help from '@screens/help/Help'
 
 export default function HelpScreen() {
   return (

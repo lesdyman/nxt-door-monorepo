@@ -1,3 +1,3 @@
-import EditListingScreen from '@components/edit-listing/EditListingScreen'
+import EditListingScreen from '@screens/edit-listing/EditListingScreen'
 
 export default EditListingScreen

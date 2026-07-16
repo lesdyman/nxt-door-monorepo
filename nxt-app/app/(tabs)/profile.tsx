@@ -1,4 +1,4 @@
-import Profile from '@components/profile/Profile'
+import Profile from '@screens/profile/Profile'
 
 export default function ProfileScreen() {
   return <Profile />

@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router'
 
-import MyListings from '@components/my-listings/MyListings'
+import MyListings from '@screens/my-listings/MyListings'
 
 export default function MyListingsScreen() {
   return (

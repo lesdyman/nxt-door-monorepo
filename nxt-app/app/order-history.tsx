@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router'
 
-import OrderHistory from '@components/order-history/OrderHistory'
+import OrderHistory from '@screens/order-history/OrderHistory'
 
 export default function OrderHistoryScreen() {
   return (

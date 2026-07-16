@@ -5,6 +5,7 @@
     "paths": {
       "@constants/*": ["./constants/*"],
       "@components/*": ["./components/*"],
+      "@screens/*": ["./screens/*"],
       "@assets/*": ["./assets/*"],
       "@contexts/*": ["./contexts/*"],
       "@hooks/*": ["./hooks/*"],

@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router'
 
-import Saved from '@components/saved/Saved'
+import Saved from '@screens/saved/Saved'
 
 export default function SavedScreen() {
   return (
