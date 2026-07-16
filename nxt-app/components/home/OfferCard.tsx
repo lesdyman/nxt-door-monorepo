@@ -1,21 +1,25 @@
+import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
 import { Card, Image, Text, YStack } from 'tamagui'
 
+import { Listing } from '@constants/types/Listing'
 import useColors from '@constants/useColors'
 
 interface Props {
   cardWidth: number
-  item: {
-    id: number
-    images: string[]
-    title: string
-    price: number
-  }
+  item: Listing
 }
 
 const OfferCard: React.FC<Props> = ({ item, cardWidth }) => {
   const colors = useColors()
   const router = useRouter()
+  const queryClient = useQueryClient()
+
+  const handlePress = () => {
+    queryClient.setQueryData(['postDetails', item.id], item)
+    router.push(`/listing/${item.id}`)
+  }
+
   return (
     <Card
       width={cardWidth}
@@ -24,7 +28,7 @@ const OfferCard: React.FC<Props> = ({ item, cardWidth }) => {
       borderColor={colors.border}
       borderRadius={12}
       overflow="hidden"
-      onPress={() => router.push(`/listing/${item.id}`)}
+      onPress={handlePress}
       pressStyle={{ opacity: 0.85 }}
       style={{ backgroundColor: colors.surface }}
     >

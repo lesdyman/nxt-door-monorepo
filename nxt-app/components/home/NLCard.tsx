@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
 import { MessageSquareText } from 'lucide-react-native'
 import { Button, Text, XStack, YStack } from 'tamagui'
@@ -13,6 +14,13 @@ interface Props {
 const NLCard: React.FC<Props> = ({ request }) => {
   const colors = useColors()
   const router = useRouter()
+  const queryClient = useQueryClient()
+
+  const handlePress = () => {
+    queryClient.setQueryData(['postDetails', request.id], request)
+    router.push(`/listing/${request.id}`)
+  }
+
   return (
     <XStack
       px="$4"
@@ -23,7 +31,7 @@ const NLCard: React.FC<Props> = ({ request }) => {
       borderColor={colors.border}
       rounded="$4"
       style={{ backgroundColor: colors.surfaceElevated }}
-      onPress={() => router.push(`/listing/${request.id}`)}
+      onPress={handlePress}
       pressStyle={{ opacity: 0.85 }}
     >
       <YStack

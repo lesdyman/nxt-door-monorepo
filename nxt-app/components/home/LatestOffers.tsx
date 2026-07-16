@@ -42,15 +42,9 @@ const LatestOffers = () => {
         decelerationRate="fast"
         contentContainerStyle={{ paddingHorizontal: H_PADDING, gap: CARD_GAP }}
       >
-        {offers.data?.map((item) => {
-          const cardData = {
-            id: item.id,
-            images: item.images,
-            title: item.title,
-            price: item.price,
-          }
-          return <OfferCard key={item.id} item={cardData} cardWidth={cardWidth} />
-        })}
+        {offers.data?.map((item) => (
+          <OfferCard key={item.id} item={item} cardWidth={cardWidth} />
+        ))}
       </ScrollView>
     </YStack>
   )
