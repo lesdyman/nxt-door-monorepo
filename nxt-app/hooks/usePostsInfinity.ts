@@ -2,6 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
 import { Listing } from '@constants/types/Listing'
+import transformListingData, { ListingResponse } from '@utils/transformListingData'
 
 const usePostsInfinity = (side?: string, limit: number = 20) => {
   return useInfiniteQuery({
@@ -21,11 +22,7 @@ const getPostsPage = async (
   const response = await axios.get('http://localhost:3000/listings', {
     params: { side, limit, offset },
   })
-  return response.data.map((listing: Listing) => ({
-    ...listing,
-    createdAt: new Date(listing.createdAt),
-    updatedAt: new Date(listing.updatedAt),
-  }))
+  return response.data.map((listing: ListingResponse) => transformListingData(listing))
 }
 
 export default usePostsInfinity

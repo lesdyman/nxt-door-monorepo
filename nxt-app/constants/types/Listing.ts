@@ -1,6 +1,6 @@
 import { Side } from './Side'
 
-export type ListingStatus = 'active' | 'closed' | 'reserved'
+export type ListingStatus = 'active' | 'closed' | 'reserved' | 'disabled'
 export type ListingCondition = 'new' | 'like_new' | 'good' | 'fair'
 
 export interface Listing {

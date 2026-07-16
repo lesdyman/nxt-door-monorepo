@@ -7,6 +7,7 @@ import { SplashScreen, Stack } from 'expo-router'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { TamaguiProvider, Theme } from 'tamagui'
 
+import { darkColors, lightColors } from '../constants/colors'
 import { tamaguiConfig } from '../tamagui.config'
 
 SplashScreen.preventAutoHideAsync()
@@ -27,12 +28,14 @@ export default function RootLayout() {
 
   if (!loaded) return null
 
+  const backgroundColor = colorScheme === 'light' ? lightColors.background : darkColors.background
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <QueryClientProvider client={queryClient}>
         <TamaguiProvider config={tamaguiConfig} defaultTheme="dark">
           <Theme name={colorScheme === 'light' ? 'light' : 'dark'}>
-            <Stack screenOptions={{ headerShown: false }}>
+            <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor } }}>
               <Stack.Screen name="(tabs)" />
               <Stack.Screen name="listing/[id]" />
               <Stack.Screen name="edit-listing/[id]" />

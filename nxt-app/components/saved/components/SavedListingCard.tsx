@@ -18,6 +18,7 @@ const STATUS_LABEL: Record<ListingStatus, string> = {
   active: 'Active',
   reserved: 'Reserved',
   closed: 'Sold Out',
+  disabled: 'Hidden',
 }
 
 const SavedListingCard: React.FC<Props> = ({ listing, onPress }) => {
@@ -26,6 +27,7 @@ const SavedListingCard: React.FC<Props> = ({ listing, onPress }) => {
     active: { bg: colors.offeringBadgeBg, text: colors.offeringBadgeText },
     reserved: { bg: 'rgba(255, 178, 36, 0.15)', text: colors.amber },
     closed: { bg: 'rgba(229, 72, 77, 0.15)', text: colors.notificationDot },
+    disabled: { bg: 'rgba(138, 145, 159, 0.15)', text: colors.textMuted },
   }
   const author = users.find((user) => user.id === listing.userId)
   const statusColors = statusColorsByStatus[listing.status]

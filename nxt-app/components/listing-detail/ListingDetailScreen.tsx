@@ -1,13 +1,14 @@
 import { Stack, useLocalSearchParams } from 'expo-router'
 
-import mockListings from '../../data/mockListings'
+import usePostDetails from '@hooks/usePostDetails'
+
 import ListingDetail from './ListingDetail'
 
 const ListingDetailScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>()
-  const listing = mockListings.find((l) => l.id === Number(id))
+  const { data: listing, isLoading } = usePostDetails(Number(id))
 
-  if (!listing) return null
+  if (isLoading || !listing) return null
 
   return (
     <>
