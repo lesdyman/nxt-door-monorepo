@@ -1,8 +1,8 @@
 import { Text, YStack } from 'tamagui'
 
 import useColors from '@constants/useColors'
+import usePosts from '@hooks/usePosts'
 
-import usePosts from '../../hooks/usePosts'
 import NLCard from './NLCard'
 
 const NeighborsAreLooking = () => {

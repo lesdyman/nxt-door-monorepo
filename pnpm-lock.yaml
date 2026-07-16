@@ -6,7 +6,14 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    devDependencies:
+      husky:
+        specifier: ^9.1.7
+        version: 9.1.7
+      lint-staged:
+        specifier: ^16.4.0
+        version: 16.4.0
 
   nxt-app:
     dependencies:
@@ -119,12 +126,6 @@ importers:
       eslint-plugin-simple-import-sort:
         specifier: ^13.0.0
         version: 13.0.0(eslint@9.39.5(jiti@2.7.0))
-      husky:
-        specifier: ^9.1.7
-        version: 9.1.7
-      lint-staged:
-        specifier: ^16.4.0
-        version: 16.4.0
       prettier:
         specifier: ^3.8.4
         version: 3.9.5

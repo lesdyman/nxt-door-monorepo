@@ -41,8 +41,6 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.6",
     "eslint-plugin-simple-import-sort": "^13.0.0",
-    "husky": "^9.1.7",
-    "lint-staged": "^16.4.0",
     "prettier": "^3.8.4",
     "typescript": "~6.0.3"
   },
@@ -52,14 +50,7 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "lint": "eslint .",
-    "format": "prettier --write .",
-    "prepare": "husky"
+    "format": "prettier --write ."
   },
-  "private": true,
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ]
-  }
+  "private": true
 }
