@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import { ScrollView } from 'react-native'
 
 import { Link } from 'expo-router'
@@ -6,8 +5,8 @@ import { ArrowRight } from 'lucide-react-native'
 import { Text, useWindowDimensions, XStack, YStack } from 'tamagui'
 
 import useColors from '@constants/useColors'
+import usePosts from '@hooks/usePosts'
 
-import mockListings from '../../data/mockListings'
 import OfferCard from './OfferCard'
 
 const CARD_GAP = 12
@@ -18,14 +17,7 @@ const LatestOffers = () => {
   const { width } = useWindowDimensions()
   const cardWidth = width
 
-  const latestOffers = useMemo(
-    () =>
-      mockListings
-        .filter((post) => post.side === 'offer')
-        .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
-        .slice(0, 5),
-    []
-  )
+  const offers = usePosts('offer', 5)
 
   return (
     <YStack gap="$3">
@@ -50,7 +42,7 @@ const LatestOffers = () => {
         decelerationRate="fast"
         contentContainerStyle={{ paddingHorizontal: H_PADDING, gap: CARD_GAP }}
       >
-        {latestOffers.map((item) => {
+        {offers.data?.map((item) => {
           const cardData = {
             id: item.id,
             images: item.images,

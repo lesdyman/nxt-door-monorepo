@@ -1,7 +1,5 @@
 import { ScrollView } from 'react-native'
 
-import { useSearch } from '@contexts/SearchContext'
-import { useTabBar } from '@contexts/TabBarContext'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { YStack } from 'tamagui'
 
@@ -10,6 +8,8 @@ import InfoBlock from '@components/home/InfoBlock'
 import LatestOffers from '@components/home/LatestOffers'
 import NeighborsAreLooking from '@components/home/NeighborsAreLooking'
 import useColors from '@constants/useColors'
+import { useSearch } from '@contexts/SearchContext'
+import { useTabBar } from '@contexts/TabBarContext'
 
 export default function HomeScreen() {
   const colors = useColors()

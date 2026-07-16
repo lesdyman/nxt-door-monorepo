@@ -1,6 +1,5 @@
-import { ScrollView } from 'react-native'
+import { ActivityIndicator, FlatList } from 'react-native'
 
-import { useTabBar } from '@contexts/TabBarContext'
 import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { YStack } from 'tamagui'
@@ -10,16 +9,15 @@ import Header from '@components/shared/Header'
 import Post from '@components/shared/Post/Post'
 import TabHeader from '@components/shared/TabHeader'
 import useColors from '@constants/useColors'
-
-import mockListings from '../../../data/mockListings'
+import { useTabBar } from '@contexts/TabBarContext'
+import usePostsInfinity from '@hooks/usePostsInfinity'
 
 export default function OrdersScreen() {
   const colors = useColors()
   const router = useRouter()
   const { onScroll } = useTabBar()
-  const orders = mockListings
-    .filter((post) => post.side === 'order')
-    .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = usePostsInfinity('order', 20)
+  const orders = data?.pages.flat() ?? []
 
   return (
     <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: colors.background }}>
@@ -28,21 +26,25 @@ export default function OrdersScreen() {
       </Header>
       <YStack pt="$3" flex={1}>
         <FilterBar />
-        <ScrollView
+        <FlatList
+          data={orders}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={({ item }) => (
+            <Post data={item} onPress={() => router.push(`/orders/${item.id}`)} />
+          )}
+          ItemSeparatorComponent={() => <YStack height={13} />}
+          contentContainerStyle={{ paddingHorizontal: 18, paddingBottom: 20 }}
           showsVerticalScrollIndicator={false}
           onScroll={onScroll}
           scrollEventThrottle={16}
-        >
-          <YStack gap="$3" px="$4" pb={20}>
-            {orders.map((order) => (
-              <Post
-                key={order.id}
-                data={order}
-                onPress={() => router.push(`/orders/${order.id}`)}
-              />
-            ))}
-          </YStack>
-        </ScrollView>
+          onEndReached={() => hasNextPage && fetchNextPage()}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={
+            isFetchingNextPage ? (
+              <ActivityIndicator color={colors.brand} style={{ marginVertical: 16 }} />
+            ) : null
+          }
+        />
       </YStack>
     </SafeAreaView>
   )

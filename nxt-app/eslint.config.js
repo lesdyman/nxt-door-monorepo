@@ -12,6 +12,14 @@ module.exports = defineConfig([
       prettier: prettierPlugin,
       'simple-import-sort': simpleImportSort,
     },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          project: './tsconfig.json',
+        },
+        node: true,
+      },
+    },
     rules: {
       'prettier/prettier': 'error',
       'simple-import-sort/imports': [
@@ -23,7 +31,7 @@ module.exports = defineConfig([
             // Third-party
             ['^@?\\w'],
             // Alias imports
-            ['^@(constants|components|assets)/'],
+            ['^@(constants|components|assets|contexts|hooks|utils)/'],
             // Local relative
             ['^\\.'],
           ],

@@ -6,10 +6,12 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { ListingsService } from './listings.service';
 import { CreateListingDto } from './dto/create-listing.dto';
 import { UpdateListingDto } from './dto/update-listing.dto';
+import { FindListingsQueryDto } from './dto/find-listings-query.dto';
 
 @Controller('listings')
 export class ListingsController {
@@ -21,8 +23,8 @@ export class ListingsController {
   }
 
   @Get()
-  findAll() {
-    return this.listingsService.findAll();
+  findAll(@Query() query: FindListingsQueryDto) {
+    return this.listingsService.findAll(query);
   }
 
   @Get(':id')

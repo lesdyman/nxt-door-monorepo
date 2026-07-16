@@ -1,6 +1,5 @@
-import { ScrollView } from 'react-native'
+import { ActivityIndicator, FlatList } from 'react-native'
 
-import { useTabBar } from '@contexts/TabBarContext'
 import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { YStack } from 'tamagui'
@@ -10,16 +9,15 @@ import Header from '@components/shared/Header'
 import Post from '@components/shared/Post/Post'
 import TabHeader from '@components/shared/TabHeader'
 import useColors from '@constants/useColors'
-
-import mockListings from '../../../data/mockListings'
+import { useTabBar } from '@contexts/TabBarContext'
+import usePostsInfinity from '@hooks/usePostsInfinity'
 
 export default function ListingsScreen() {
   const colors = useColors()
   const router = useRouter()
   const { onScroll } = useTabBar()
-  const listings = mockListings
-    .filter((post) => post.side === 'offer')
-    .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = usePostsInfinity('offer', 20)
+  const listings = data?.pages.flat() ?? []
 
   return (
     <SafeAreaView edges={['top']} style={{ flex: 1, backgroundColor: colors.background }}>
@@ -28,21 +26,25 @@ export default function ListingsScreen() {
       </Header>
       <YStack pt="$3" flex={1}>
         <FilterBar />
-        <ScrollView
+        <FlatList
+          data={listings}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={({ item }) => (
+            <Post data={item} onPress={() => router.push(`/listings/${item.id}`)} />
+          )}
+          ItemSeparatorComponent={() => <YStack height={13} />}
+          contentContainerStyle={{ paddingHorizontal: 18, paddingBottom: 20 }}
           showsVerticalScrollIndicator={false}
           onScroll={onScroll}
           scrollEventThrottle={16}
-        >
-          <YStack gap="$3" px="$4" pb={20}>
-            {listings.map((listing) => (
-              <Post
-                key={listing.id}
-                data={listing}
-                onPress={() => router.push(`/listings/${listing.id}`)}
-              />
-            ))}
-          </YStack>
-        </ScrollView>
+          onEndReached={() => hasNextPage && fetchNextPage()}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={
+            isFetchingNextPage ? (
+              <ActivityIndicator color={colors.brand} style={{ marginVertical: 16 }} />
+            ) : null
+          }
+        />
       </YStack>
     </SafeAreaView>
   )

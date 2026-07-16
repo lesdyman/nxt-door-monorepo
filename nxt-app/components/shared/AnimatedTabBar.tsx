@@ -1,7 +1,8 @@
 import { Animated } from 'react-native'
 
-import { useTabBar } from '@contexts/TabBarContext'
 import { BottomTabBar, type BottomTabBarProps } from 'expo-router/tabs'
+
+import { useTabBar } from '@contexts/TabBarContext'
 
 const AnimatedTabBar = (props: BottomTabBarProps) => {
   const { translateY } = useTabBar()

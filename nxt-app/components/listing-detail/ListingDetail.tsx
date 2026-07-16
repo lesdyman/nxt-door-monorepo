@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
 import { ScrollView } from 'react-native'
 
-import { useTabBarSafe } from '@contexts/TabBarContext'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Text, YStack } from 'tamagui'
 
 import { Listing } from '@constants/types/Listing'
 import useColors from '@constants/useColors'
+import { useTabBarSafe } from '@contexts/TabBarContext'
 
 import Actions from './components/Actions'
 import AmountCategory from './components/AmountCategory'

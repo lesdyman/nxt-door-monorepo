@@ -1,8 +1,8 @@
-import { useSearch } from '@contexts/SearchContext'
 import { Text, XStack, YStack } from 'tamagui'
 
 import Filter from '@components/shared/Filter/Filter'
 import useColors from '@constants/useColors'
+import { useSearch } from '@contexts/SearchContext'
 
 const QUICK_FILTERS = [
   'Urgent',

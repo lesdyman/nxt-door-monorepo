@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateListingDto } from './dto/create-listing.dto';
 import { UpdateListingDto } from './dto/update-listing.dto';
+import { FindListingsQueryDto } from './dto/find-listings-query.dto';
 
 @Injectable()
 export class ListingsService {
@@ -11,8 +12,13 @@ export class ListingsService {
     return this.prisma.listing.create({ data: createListingDto });
   }
 
-  findAll() {
-    return this.prisma.listing.findMany();
+  findAll({ side, limit = 20, offset = 0 }: FindListingsQueryDto) {
+    return this.prisma.listing.findMany({
+      where: side ? { side } : undefined,
+      orderBy: { createdAt: 'desc' },
+      take: limit,
+      skip: offset,
+    });
   }
 
   async findOne(id: number) {
