@@ -1,4 +1,4 @@
-import { ActivityIndicator, FlatList } from 'react-native'
+import { ActivityIndicator, FlatList, RefreshControl } from 'react-native'
 
 import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
@@ -19,7 +19,8 @@ export default function ListingsScreen() {
   const router = useRouter()
   const queryClient = useQueryClient()
   const { onScroll } = useTabBar()
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = usePostsInfinity('offer', 20)
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, refetch, isRefetching } =
+    usePostsInfinity('offer', 20)
   const listings = data?.pages.flat() ?? []
 
   const handlePress = (item: Listing) => {
@@ -45,6 +46,13 @@ export default function ListingsScreen() {
           scrollEventThrottle={16}
           onEndReached={() => hasNextPage && fetchNextPage()}
           onEndReachedThreshold={0.5}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefetching}
+              onRefresh={refetch}
+              tintColor={colors.brand}
+            />
+          }
           ListFooterComponent={
             isFetchingNextPage ? (
               <ActivityIndicator color={colors.brand} style={{ marginVertical: 16 }} />

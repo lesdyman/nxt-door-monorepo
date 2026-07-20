@@ -53,7 +53,7 @@ const OfferCard: React.FC<Props> = ({ item, cardWidth }) => {
           {item.title}
         </Text>
         <Text color={colors.accent} fontSize={16} fontWeight="600">
-          {item.price}
+          ₴{item.price}
         </Text>
       </YStack>
     </Card>

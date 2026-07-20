@@ -8,6 +8,7 @@ import { Text, YStack } from 'tamagui'
 
 import BrandButton from '@components/BrandButton'
 import Header from '@components/Header'
+import Loader from '@components/Loader'
 import { Side } from '@constants/types/Side'
 import useColors from '@constants/useColors'
 import CategorySelect from '@screens/new-post/components/CategorySelect'
@@ -103,10 +104,18 @@ export default function NewPostModal() {
 
       <YStack px="$4" py="$3" style={{ backgroundColor: colors.background }}>
         <BrandButton size="$4" onPress={handleAddPost} disabled={createListing.isPending}>
-          <SendHorizontal size={20} color={colors.white} />
-          <Text fontSize={16} lineHeight={24} fontWeight="600" color={colors.white}>
-            Add Post
-          </Text>
+          {createListing.isPending ? (
+            <YStack items="center" justify="center" style={{ width: '100%' }}>
+              <Loader size={28} colorPrimary={colors.white} colorSecondary={colors.amber} />
+            </YStack>
+          ) : (
+            <>
+              <SendHorizontal size={20} color={colors.white} />
+              <Text fontSize={16} lineHeight={24} fontWeight="600" color={colors.white}>
+                Add Post
+              </Text>
+            </>
+          )}
         </BrandButton>
       </YStack>
     </SafeAreaView>
