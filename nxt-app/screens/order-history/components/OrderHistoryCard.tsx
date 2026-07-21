@@ -3,10 +3,9 @@ import { Button, Separator, Text, View, XStack, YStack } from 'tamagui'
 
 import { Listing } from '@constants/types/Listing'
 import useColors from '@constants/useColors'
-
-import users from '../../../data/users'
-import dateFormatter from '../../../utils/dateFormateter'
-import nameReducer from '../../../utils/nameReducer'
+import useUser from '@hooks/useUser'
+import dateFormatter from '@utils/dateFormateter'
+import nameReducer from '@utils/nameReducer'
 
 interface Props {
   listing: Listing
@@ -15,7 +14,7 @@ interface Props {
 
 const OrderHistoryCard: React.FC<Props> = ({ listing, onPressDetails }) => {
   const colors = useColors()
-  const author = users.find((user) => user.id === listing.userId)
+  const { data: author } = useUser(listing.userId)
 
   return (
     <YStack

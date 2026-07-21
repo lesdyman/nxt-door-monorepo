@@ -11,6 +11,7 @@ import Header from '@components/Header'
 import Loader from '@components/Loader'
 import { Side } from '@constants/types/Side'
 import useColors from '@constants/useColors'
+import useCurrentUser from '@hooks/useCurrentUser'
 import CategorySelect from '@screens/new-post/components/CategorySelect'
 import Description from '@screens/new-post/components/Description'
 import PhotoPicker from '@screens/new-post/components/PhotoPicker'
@@ -20,9 +21,6 @@ import SideSelect from '@screens/new-post/components/SideSelect'
 import TitleInput from '@screens/new-post/components/TitleInput'
 import useCreateListing from '@screens/new-post/hooks/useCreateListing'
 import uploadsService from '@services/uploadsService'
-
-import places from '../data/places'
-import users from '../data/users'
 
 export default function NewPostModal() {
   const colors = useColors()
@@ -36,12 +34,11 @@ export default function NewPostModal() {
   const [price, setPrice] = useState<string>('')
   const [photos, setPhotos] = useState<string[]>([])
 
-  const currentUser = users[0]
-  const currentPlace = places.find((p) => p.id === currentUser.place_id)
+  const { user, place } = useCurrentUser()
 
   const [coords, setCoords] = useState({
-    latitude: currentPlace?.latitude ?? 0,
-    longitude: currentPlace?.longitude ?? 0,
+    latitude: place?.latitude ?? 0,
+    longitude: place?.longitude ?? 0,
   })
 
   const uploadImages = async (): Promise<string[]> => {
@@ -53,6 +50,8 @@ export default function NewPostModal() {
   }
 
   const handleAddPost = async () => {
+    if (!user) return
+
     const images = await uploadImages()
 
     const payload = {
@@ -63,10 +62,10 @@ export default function NewPostModal() {
       images,
       side,
       category,
-      userId: currentUser.id,
+      userId: user.id,
       latitude: coords.latitude,
       longitude: coords.longitude,
-      address: currentPlace?.address ?? '',
+      address: place?.address ?? '',
     }
     await createListing.mutateAsync(payload)
     router.back()
@@ -95,15 +94,15 @@ export default function NewPostModal() {
         <Description value={description} onChangeText={setDescription} />
         <PriceQuantity priceValue={price} onPriceChange={setPrice} />
         <PickupLocation
-          address={currentPlace?.address || 'Unknown'}
+          address={place?.address || 'Unknown'}
           coords={coords}
-          boundary={currentPlace?.boundary}
+          boundary={place?.boundary}
           onCoordsChange={setCoords}
         />
       </ScrollView>
 
       <YStack px="$4" py="$3" style={{ backgroundColor: colors.background }}>
-        <BrandButton size="$4" onPress={handleAddPost} disabled={createListing.isPending}>
+        <BrandButton size="$4" onPress={handleAddPost} disabled={createListing.isPending || !user}>
           {createListing.isPending ? (
             <YStack items="center" justify="center" style={{ width: '100%' }}>
               <Loader size={28} colorPrimary={colors.white} colorSecondary={colors.amber} />

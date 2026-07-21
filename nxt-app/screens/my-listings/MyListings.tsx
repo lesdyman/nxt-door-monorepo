@@ -8,21 +8,21 @@ import { Text, YStack } from 'tamagui'
 
 import BackHeader from '@components/BackHeader'
 import useColors from '@constants/useColors'
+import { useAuth } from '@contexts/AuthContext'
 import useConfirmDeleteListing from '@hooks/useConfirmDeleteListing'
 import useListings from '@hooks/useListings'
 
-import users from '../../data/users'
 import MyListingCard from './components/MyListingCard'
 import SearchBar from './components/SearchBar'
-
-const currentUser = users[0]
 
 const MyListings = () => {
   const colors = useColors()
   const router = useRouter()
   const [search, setSearch] = useState('')
 
-  const { data: userListings } = useListings({ userId: currentUser.id, limit: 100 })
+  const { userId } = useAuth()
+
+  const { data: userListings } = useListings({ userId: userId || undefined, limit: 100 })
   const { confirmDelete } = useConfirmDeleteListing()
 
   const myListings = useMemo(

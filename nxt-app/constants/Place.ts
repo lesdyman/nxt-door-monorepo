@@ -6,9 +6,9 @@ type Place = {
   latitude: number
   longitude: number
   boundary: { latitude: number; longitude: number }[]
-  mgmt_phone: string
-  security_phone: string
-  elevator_emergency: string
+  mgmtPhone: string | null
+  securityPhone: string | null
+  elevatorEmergency: string | null
 }
 
 export default Place

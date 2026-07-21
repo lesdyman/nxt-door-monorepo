@@ -3,8 +3,8 @@ import { Image, Text, View, XStack, YStack } from 'tamagui'
 
 import { infoMessage } from '@constants/types/InfoMessage'
 import useColors from '@constants/useColors'
+import useUser from '@hooks/useUser'
 
-import users from '../../../data/users'
 import dateFormatter from '../../../utils/dateFormateter'
 
 interface Props {
@@ -13,8 +13,7 @@ interface Props {
 
 const MessageCard: React.FC<Props> = ({ message }) => {
   const colors = useColors()
-  const sender =
-    message.type === 'market' ? users.find((user) => user.id === message.fromId) : undefined
+  const { data: sender } = useUser(message.type === 'market' ? message.fromId : null)
   const title = message.type === 'info' ? message.title : (sender?.name ?? 'Unknown user')
   const showBadge = message.type === 'info' || message.subtype !== 'review'
   const badgeLabel = message.type === 'info' ? 'Info' : 'Marketplace'

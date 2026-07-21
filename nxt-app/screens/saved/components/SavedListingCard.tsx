@@ -5,8 +5,8 @@ import { Image, Text, View, XStack, YStack } from 'tamagui'
 
 import { Listing, ListingStatus } from '@constants/types/Listing'
 import useColors from '@constants/useColors'
+import useUser from '@hooks/useUser'
 
-import users from '../../../data/users'
 import nameReducer from '../../../utils/nameReducer'
 
 interface Props {
@@ -29,7 +29,7 @@ const SavedListingCard: React.FC<Props> = ({ listing, onPress }) => {
     closed: { bg: 'rgba(229, 72, 77, 0.15)', text: colors.notificationDot },
     disabled: { bg: 'rgba(138, 145, 159, 0.15)', text: colors.textMuted },
   }
-  const author = users.find((user) => user.id === listing.userId)
+  const { data: author } = useUser(listing.userId)
   const statusColors = statusColorsByStatus[listing.status]
 
   return (

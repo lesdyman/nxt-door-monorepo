@@ -7,6 +7,8 @@ import { SplashScreen, Stack } from 'expo-router'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { TamaguiProvider, Theme } from 'tamagui'
 
+import { AuthProvider } from '@contexts/AuthContext'
+
 import { darkColors, lightColors } from '../constants/colors'
 import { tamaguiConfig } from '../tamagui.config'
 
@@ -32,26 +34,28 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <QueryClientProvider client={queryClient}>
-        <TamaguiProvider config={tamaguiConfig} defaultTheme="dark">
-          <Theme name={colorScheme === 'light' ? 'light' : 'dark'}>
-            <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor } }}>
-              <Stack.Screen name="(tabs)" />
-              <Stack.Screen name="listing/[id]" />
-              <Stack.Screen name="edit-listing/[id]" />
-              <Stack.Screen name="info-center" />
-              <Stack.Screen name="my-listings" />
-              <Stack.Screen name="order-history" />
-              <Stack.Screen name="saved" />
-              <Stack.Screen name="help" />
-              <Stack.Screen
-                name="new-post"
-                options={{ presentation: 'modal', headerShown: false }}
-              />
-            </Stack>
-          </Theme>
-        </TamaguiProvider>
-      </QueryClientProvider>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <TamaguiProvider config={tamaguiConfig} defaultTheme="dark">
+            <Theme name={colorScheme === 'light' ? 'light' : 'dark'}>
+              <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor } }}>
+                <Stack.Screen name="(tabs)" />
+                <Stack.Screen name="listing/[id]" />
+                <Stack.Screen name="edit-listing/[id]" />
+                <Stack.Screen name="info-center" />
+                <Stack.Screen name="my-listings" />
+                <Stack.Screen name="order-history" />
+                <Stack.Screen name="saved" />
+                <Stack.Screen name="help" />
+                <Stack.Screen
+                  name="new-post"
+                  options={{ presentation: 'modal', headerShown: false }}
+                />
+              </Stack>
+            </Theme>
+          </TamaguiProvider>
+        </QueryClientProvider>
+      </AuthProvider>
     </GestureHandlerRootView>
   )
 }

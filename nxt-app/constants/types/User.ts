@@ -2,9 +2,10 @@ type User = {
   id: number
   name: string
   avatar: string
+  onboarded: boolean
   rating: number
   reviewsCount: number
-  place_id: string
+  placeId: string
   dealsCount: number
   createdAt: Date
   updatedAt: Date

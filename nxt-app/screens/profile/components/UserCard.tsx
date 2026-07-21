@@ -4,11 +4,11 @@ import useColors from '@constants/useColors'
 
 interface Props {
   userCardData: {
-    name: string
-    avatar: string
-    placeName: string
-    rating: number
-    reviewsCount: number
+    name?: string
+    avatar?: string
+    placeName?: string
+    rating?: number
+    reviewsCount?: number
   }
 }
 
@@ -58,10 +58,10 @@ const UserCard: React.FC<Props> = ({ userCardData }) => {
         color={colors.textPrimary}
         letterSpacing={-0.24}
       >
-        {userCardData.name}
+        {userCardData.name || 'N/A'}
       </Text>
       <Text fontSize={16} lineHeight={24} color={colors.textMuted}>
-        {userCardData.placeName}
+        {userCardData.placeName || 'N/A'}
       </Text>
       <XStack
         gap="$2"
@@ -74,13 +74,13 @@ const UserCard: React.FC<Props> = ({ userCardData }) => {
         borderColor={colors.border}
       >
         <Text color={colors.textPrimary} fontSize={16} lineHeight={24}>
-          ⭐ {userCardData.rating} Rating
+          ⭐ {userCardData.rating ? `${userCardData.rating} Rating` : ''}
         </Text>
         <Text color={colors.textSecondary} fontSize={16} lineHeight={24}>
           ·
         </Text>
         <Text color={colors.textMuted} fontSize={16} lineHeight={24}>
-          {userCardData.reviewsCount} Reviews
+          {userCardData.reviewsCount ? `${userCardData.reviewsCount} Reviews` : ''}
         </Text>
       </XStack>
     </YStack>

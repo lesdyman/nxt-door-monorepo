@@ -5,9 +5,9 @@ import { Sheet, Text, TextArea, Theme, YStack } from 'tamagui'
 
 import { Listing } from '@constants/types/Listing'
 import useColors from '@constants/useColors'
+import usePlace from '@hooks/usePlace'
+import useUser from '@hooks/useUser'
 
-import places from '../../data/places'
-import users from '../../data/users'
 import nameReducer from '../../utils/nameReducer'
 import ItemWidget from './components/ItemWidget'
 import LocationWidget from './components/LocationWidget'
@@ -24,8 +24,8 @@ interface Props {
 const RequestSheet: React.FC<Props> = ({ listing, isOpen, onClose }) => {
   const colors = useColors()
   const colorScheme = useColorScheme()
-  const user = users.find((u) => u.id === listing.userId)
-  const place = places.find((p) => p.id === user?.place_id)
+  const { data: user } = useUser(listing.userId)
+  const { data: place } = usePlace(user?.placeId || null)
 
   const [coords, setCoords] = useState({
     latitude: listing.location.latitude,
