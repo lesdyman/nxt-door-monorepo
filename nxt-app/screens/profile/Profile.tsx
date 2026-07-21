@@ -2,24 +2,22 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { ScrollView, YStack } from 'tamagui'
 
 import useColors from '@constants/useColors'
+import useCurrentUser from '@hooks/useCurrentUser'
 
-import places from '../../data/places'
-import users from '../../data/users'
 import ProfileHeader from './components/ProfileHeader'
 import { SettingsMenu } from './components/SettingsMenu'
 import UserCard from './components/UserCard'
 
 const Profile = () => {
   const colors = useColors()
-  const user = users[0]
-  const place = places.find((p) => p.id === user.place_id)
+  const { user, place } = useCurrentUser()
 
   const userCardData = {
-    name: user.name,
-    avatar: user.avatar,
+    name: user?.name,
+    avatar: user?.avatar,
     placeName: place?.name || 'Unknown',
-    rating: user.rating,
-    reviewsCount: user.reviewsCount,
+    rating: user?.rating,
+    reviewsCount: user?.reviewsCount,
   }
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>

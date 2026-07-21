@@ -17,7 +17,7 @@ const NLCard: React.FC<Props> = ({ request }) => {
   const queryClient = useQueryClient()
 
   const handlePress = () => {
-    queryClient.setQueryData(['postDetails', request.id], request)
+    queryClient.setQueryData(['listingDetails', request.id], request)
     router.push(`/listing/${request.id}`)
   }
 

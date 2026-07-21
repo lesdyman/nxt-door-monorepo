@@ -16,7 +16,7 @@ const OfferCard: React.FC<Props> = ({ item, cardWidth }) => {
   const queryClient = useQueryClient()
 
   const handlePress = () => {
-    queryClient.setQueryData(['postDetails', item.id], item)
+    queryClient.setQueryData(['listingDetails', item.id], item)
     router.push(`/listing/${item.id}`)
   }
 

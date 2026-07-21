@@ -2,8 +2,7 @@ import { Link } from 'expo-router'
 import { Image, Text, XStack, YStack } from 'tamagui'
 
 import useColors from '@constants/useColors'
-
-import users from '../../../data/users'
+import useUser from '@hooks/useUser'
 
 interface Props {
   postAuthorId: number
@@ -11,7 +10,7 @@ interface Props {
 
 const AuthorBlock: React.FC<Props> = ({ postAuthorId }) => {
   const colors = useColors()
-  const user = users.find((user) => user.id === postAuthorId)
+  const { data: user } = useUser(postAuthorId)
   return (
     <XStack
       p={16}

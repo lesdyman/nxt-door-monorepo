@@ -31,7 +31,7 @@ const ListingDetail: React.FC<Props> = ({ listing }) => {
 
   return (
     <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1, backgroundColor: colors.background }}>
-      <DetailsHeader />
+      <DetailsHeader currentListingId={listing.id} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageCarousel images={listing.images} category={listing.category} />
         <YStack gap="$4" px="$4" pt="$4" pb="$4">

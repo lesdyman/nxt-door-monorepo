@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { ScrollView } from 'react-native'
 
 import { useRouter } from 'expo-router'
@@ -8,23 +8,30 @@ import { Text, YStack } from 'tamagui'
 
 import BackHeader from '@components/BackHeader'
 import useColors from '@constants/useColors'
+import { useAuth } from '@contexts/AuthContext'
+import useConfirmDeleteListing from '@hooks/useConfirmDeleteListing'
+import useListings from '@hooks/useListings'
 
-import mockListings from '../../data/mockListings'
-import users from '../../data/users'
 import MyListingCard from './components/MyListingCard'
 import SearchBar from './components/SearchBar'
-
-const currentUser = users[0]
 
 const MyListings = () => {
   const colors = useColors()
   const router = useRouter()
   const [search, setSearch] = useState('')
 
-  const myListings = mockListings
-    .filter((listing) => listing.userId === currentUser.id)
-    .filter((listing) => listing.title.toLowerCase().includes(search.toLowerCase()))
-    .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())
+  const { userId } = useAuth()
+
+  const { data: userListings } = useListings({ userId: userId || undefined, limit: 100 })
+  const { confirmDelete } = useConfirmDeleteListing()
+
+  const myListings = useMemo(
+    () =>
+      (userListings ?? [])
+        .filter((listing) => listing.title.toLowerCase().includes(search.toLowerCase()))
+        .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime()),
+    [userListings, search]
+  )
 
   return (
     <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1, backgroundColor: colors.background }}>
@@ -40,7 +47,7 @@ const MyListings = () => {
                   listing={listing}
                   onEdit={() => router.push(`/edit-listing/${listing.id}`)}
                   onPromote={() => {}}
-                  onDelete={() => {}}
+                  onDelete={() => confirmDelete(listing.id)}
                 />
               ))}
             </YStack>

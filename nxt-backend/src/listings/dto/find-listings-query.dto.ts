@@ -10,6 +10,11 @@ export class FindListingsQueryDto {
   @IsOptional()
   @Type(() => Number)
   @IsInt()
+  userId?: number;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
   @Min(1)
   @Max(100)
   limit?: number = 20;

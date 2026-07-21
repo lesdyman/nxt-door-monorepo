@@ -1,34 +1,24 @@
 import axios from 'axios'
 
+import API_URL from '@constants/apiUrl'
+import CreateListingPayload from '@constants/types/CreatePostPayload'
 import { Listing } from '@constants/types/Listing'
-import { Side } from '@constants/types/Side'
 import transformListingData, { ListingResponse } from '@utils/transformListingData'
 
-const BASE_URL = 'http://localhost:3000/listings'
+const BASE_URL = `${API_URL}/listings`
 
 interface GetListingsParams {
   side?: string
+  userId?: number
   limit?: number
   offset?: number
 }
 
-interface CreateListingPayload {
-  title: string
-  description: string
-  price: number
-  currency: string
-  images: string[]
-  side: Side
-  category: string
-  userId: number
-  latitude: number
-  longitude: number
-  address: string
-}
-
 const listingsService = {
-  getListings: async ({ side, limit, offset }: GetListingsParams = {}): Promise<Listing[]> => {
-    const response = await axios.get(BASE_URL, { params: { side, limit, offset } })
+  getListings: async ({ side, userId, limit, offset }: GetListingsParams = {}): Promise<
+    Listing[]
+  > => {
+    const response = await axios.get(BASE_URL, { params: { side, userId, limit, offset } })
     return response.data.map((listing: ListingResponse) => transformListingData(listing))
   },
 
@@ -39,6 +29,14 @@ const listingsService = {
 
   createListing: async (payload: CreateListingPayload) => {
     const response = await axios.post(BASE_URL, payload)
+    return response.data
+  },
+  updateListing: async (id: number, payload: Partial<CreateListingPayload>) => {
+    const response = await axios.patch(`${BASE_URL}/${id}`, payload)
+    return response.data
+  },
+  deleteListing: async (id: number) => {
+    const response = await axios.delete(`${BASE_URL}/${id}`)
     return response.data
   },
 }

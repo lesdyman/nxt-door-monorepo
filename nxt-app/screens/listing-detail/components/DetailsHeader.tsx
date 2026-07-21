@@ -6,10 +6,24 @@ import { Text } from 'tamagui'
 
 import Header from '@components/Header'
 import useColors from '@constants/useColors'
+import useToggleSavedListing from '@hooks/useToggleSavedListing'
 
-const DetailsHeader = () => {
+interface Props {
+  currentListingId: number
+}
+
+const DetailsHeader: React.FC<Props> = ({ currentListingId }) => {
   const colors = useColors()
   const router = useRouter()
+  const { isSaved, toggle, requiresAuth, isPending } = useToggleSavedListing(currentListingId)
+
+  const handlePress = () => {
+    if (requiresAuth) {
+      router.push('/login')
+      return
+    }
+    toggle()
+  }
 
   return (
     <Header>
@@ -26,8 +40,12 @@ const DetailsHeader = () => {
       >
         Details
       </Text>
-      <TouchableOpacity onPress={() => {}}>
-        <Heart size={24} color={colors.notificationDot} />
+      <TouchableOpacity onPress={handlePress} disabled={isPending}>
+        <Heart
+          size={24}
+          color={colors.notificationDot}
+          fill={isSaved ? colors.notificationDot : 'transparent'}
+        />
       </TouchableOpacity>
     </Header>
   )

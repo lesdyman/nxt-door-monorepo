@@ -7,18 +7,21 @@ import { Text, YStack } from 'tamagui'
 
 import BackHeader from '@components/BackHeader'
 import useColors from '@constants/useColors'
+import { useAuth } from '@contexts/AuthContext'
+import useListings from '@hooks/useListings'
 
-import mockListings from '../../data/mockListings'
-import users from '../../data/users'
 import OrderHistoryCard from './components/OrderHistoryCard'
-
-const currentUser = users[0]
 
 const OrderHistory = () => {
   const colors = useColors()
   const router = useRouter()
-  const pastTransactions = mockListings
-    .filter((listing) => listing.userId === currentUser.id && listing.status === 'closed')
+
+  const { userId } = useAuth()
+
+  const { data: listings } = useListings({ userId: userId || undefined })
+
+  const pastTransactions = (listings ?? [])
+    .filter((listing) => listing.status === 'closed')
     .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())
 
   return (

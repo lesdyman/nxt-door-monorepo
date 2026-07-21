@@ -8,6 +8,7 @@ import { YStack } from 'tamagui'
 import useColors from '@constants/useColors'
 import { useSearch } from '@contexts/SearchContext'
 import { useTabBar } from '@contexts/TabBarContext'
+import useCurrentUser from '@hooks/useCurrentUser'
 import HomeHeader from '@screens/home/HomeHeader'
 import InfoBlock from '@screens/home/InfoBlock'
 import LatestOffers from '@screens/home/LatestOffers'
@@ -18,17 +19,24 @@ export default function HomeScreen() {
   const { openSearch } = useSearch()
   const { onScroll } = useTabBar()
   const queryClient = useQueryClient()
+
   const [refreshing, setRefreshing] = useState(false)
 
   const handleRefresh = async () => {
     setRefreshing(true)
-    await queryClient.invalidateQueries({ queryKey: ['posts'] })
+    await queryClient.invalidateQueries({ queryKey: ['listings'] })
     setRefreshing(false)
   }
 
+  const { user, place, isLoading } = useCurrentUser()
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
-      <HomeHeader openSearchClick={() => openSearch()} />
+      <HomeHeader
+        openSearchClick={() => openSearch()}
+        placeName={place?.name || 'N/A'}
+        userName={user?.name || 'N/A'}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         onScroll={onScroll}
@@ -42,7 +50,7 @@ export default function HomeScreen() {
         }
       >
         <YStack flex={1} gap="$4" pb="$4">
-          <InfoBlock />
+          <InfoBlock place={place} isLoading={isLoading} />
           <LatestOffers />
           <NeighborsAreLooking />
         </YStack>

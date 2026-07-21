@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-const BASE_URL = 'http://localhost:3000/uploads'
+import API_URL from '@constants/apiUrl'
+
+const BASE_URL = `${API_URL}/uploads`
 
 const uploadsService = {
   uploadImage: async (uri: string): Promise<string> => {

@@ -9,20 +9,23 @@ import useColors from '@constants/useColors'
 
 interface Props {
   openSearchClick: () => void
+  placeName: string
+  userName: string
 }
 
-const HomeHeader: React.FC<Props> = ({ openSearchClick }) => {
+const HomeHeader: React.FC<Props> = ({ openSearchClick, placeName, userName }) => {
   const colors = useColors()
   const router = useRouter()
+  const name = userName.split(' ')[0]
 
   return (
     <Header>
       <YStack>
         <Text fontSize={12} color={colors.accent} fontWeight="400" letterSpacing={0.6}>
-          TETRIS HALL COMPLEX
+          {placeName.toLocaleUpperCase()}
         </Text>
         <Text fontSize={28} fontWeight="600" color={colors.textPrimary}>
-          Hello, Olexander!
+          Hello, {name}!
         </Text>
       </YStack>
       <XStack gap="$2">

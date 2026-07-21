@@ -5,13 +5,14 @@ import { Image, Text, View, XStack, YStack } from 'tamagui'
 
 import { Listing, ListingStatus } from '@constants/types/Listing'
 import useColors from '@constants/useColors'
+import useUser from '@hooks/useUser'
 
-import users from '../../../data/users'
 import nameReducer from '../../../utils/nameReducer'
 
 interface Props {
   listing: Listing
   onPress?: () => void
+  onDelete?: () => void
 }
 
 const STATUS_LABEL: Record<ListingStatus, string> = {
@@ -21,7 +22,7 @@ const STATUS_LABEL: Record<ListingStatus, string> = {
   disabled: 'Hidden',
 }
 
-const SavedListingCard: React.FC<Props> = ({ listing, onPress }) => {
+const SavedListingCard: React.FC<Props> = ({ listing, onPress, onDelete }) => {
   const colors = useColors()
   const statusColorsByStatus: Record<ListingStatus, { bg: string; text: string }> = {
     active: { bg: colors.offeringBadgeBg, text: colors.offeringBadgeText },
@@ -29,7 +30,7 @@ const SavedListingCard: React.FC<Props> = ({ listing, onPress }) => {
     closed: { bg: 'rgba(229, 72, 77, 0.15)', text: colors.notificationDot },
     disabled: { bg: 'rgba(138, 145, 159, 0.15)', text: colors.textMuted },
   }
-  const author = users.find((user) => user.id === listing.userId)
+  const { data: author } = useUser(listing.userId)
   const statusColors = statusColorsByStatus[listing.status]
 
   return (
@@ -87,7 +88,9 @@ const SavedListingCard: React.FC<Props> = ({ listing, onPress }) => {
           </XStack>
         </YStack>
 
-        <Heart size={20} color={colors.notificationDot} fill={colors.notificationDot} />
+        <TouchableOpacity onPress={onDelete} hitSlop={10}>
+          <Heart size={20} color={colors.notificationDot} fill={colors.notificationDot} />
+        </TouchableOpacity>
         <ChevronRight size={18} color={colors.textSecondary} />
       </XStack>
     </TouchableOpacity>

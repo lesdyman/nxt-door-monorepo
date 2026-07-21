@@ -2,20 +2,20 @@ import { MapPin } from 'lucide-react-native'
 import { Image, Text, View, XStack, YStack } from 'tamagui'
 
 import useColors from '@constants/useColors'
-
-import places from '../../../data/places'
+import usePlace from '@hooks/usePlace'
 
 interface Props {
   user: {
     name: string
     avatar: string
-    place_id: string
+    placeId: string
   }
 }
 
 const NameAvatar: React.FC<Props> = ({ user }) => {
   const colors = useColors()
-  const userAddress = places.find((place) => place.id === user.place_id)
+  const { data: place } = usePlace(user.placeId)
+  const userAddress = place
   return (
     <YStack gap="$3" items="center">
       {user.avatar ? (
@@ -58,7 +58,7 @@ const NameAvatar: React.FC<Props> = ({ user }) => {
         <XStack gap="$1" items="center">
           <MapPin size={16} color={colors.mist} />
           <Text color={colors.mist} fontSize={16} lineHeight={24}>
-            {userAddress ? userAddress.name : 'Unknown Location'}
+            {userAddress ? userAddress.address : 'Unknown Location'}
           </Text>
         </XStack>
       </YStack>

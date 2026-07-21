@@ -7,18 +7,17 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Text, View, XStack, YStack } from 'tamagui'
 
 import BrandButton from '@components/BrandButton'
-import Post from '@components/Post/Post'
+import ListingCard from '@components/Listing/Listing'
 import User from '@constants/types/User'
 import useColors from '@constants/useColors'
+import useListings from '@hooks/useListings'
 
-import mockListings from '../../data/mockListings'
 import reviews from '../../data/reviews'
-import users from '../../data/users'
 import AuthorDetailsHeader from './components/AuthorDetailsHeader'
 import AuthorDetailsTabs, { AuthorDetailsTab } from './components/AuthorDetailsTabs'
 import NameAvatar from './components/NameAvatar'
 import RateWidget from './components/RateWidget'
-import ReviewCard from './components/ReviewCard'
+import ReviewCardContainer from './components/ReviewCardContainer'
 
 interface Props {
   user: User
@@ -29,12 +28,11 @@ const AuthorDetails: React.FC<Props> = ({ user }) => {
   const [activeTab, setActiveTab] = useState<AuthorDetailsTab>('listings')
   const router = useRouter()
 
+  const { data: userListings } = useListings({ userId: user.id, limit: 100 })
+
   const activeListings = useMemo(
-    () =>
-      mockListings.filter(
-        (listing) => user.userPosts.includes(listing.id) && listing.status === 'active'
-      ),
-    [user.userPosts]
+    () => (userListings ?? []).filter((listing) => listing.status === 'active'),
+    [userListings]
   )
 
   const userReviews = useMemo(
@@ -55,7 +53,7 @@ const AuthorDetails: React.FC<Props> = ({ user }) => {
           stickyHeaderIndices={[1]}
         >
           <YStack gap="$4" px="$4" pt="$4" pb="$4">
-            <NameAvatar user={{ name: user.name, avatar: user.avatar, place_id: user.place_id }} />
+            <NameAvatar user={{ name: user.name, avatar: user.avatar, placeId: user.placeId }} />
 
             <RateWidget rateData={{ rating: user.rating, reviewsCount: user.reviewsCount }} />
           </YStack>
@@ -75,7 +73,7 @@ const AuthorDetails: React.FC<Props> = ({ user }) => {
                 </YStack>
               ) : (
                 activeListings.map((listing) => (
-                  <Post
+                  <ListingCard
                     key={listing.id}
                     data={listing}
                     onPress={() => router.push(`/listing/${listing.id}`)}
@@ -93,21 +91,13 @@ const AuthorDetails: React.FC<Props> = ({ user }) => {
                   </Text>
                 </YStack>
               ) : (
-                userReviews.map((review) => {
-                  const reviewer = users.find((u) => u.id === review.reviewerId)
-                  const listing = mockListings.find((l) => l.id === review.listingId)
-                  if (!reviewer || !listing) return null
-
-                  return (
-                    <ReviewCard
-                      key={review.id}
-                      review={review}
-                      reviewer={{ name: reviewer.name, avatar: reviewer.avatar }}
-                      listingTitle={listing.title}
-                      onPressListing={() => router.push(`/listing/${listing.id}`)}
-                    />
-                  )
-                })
+                userReviews.map((review) => (
+                  <ReviewCardContainer
+                    key={review.id}
+                    review={review}
+                    onPressListing={(listingId) => router.push(`/listing/${listingId}`)}
+                  />
+                ))
               )}
             </YStack>
           )}

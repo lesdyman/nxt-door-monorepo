@@ -1,12 +1,11 @@
 import { Stack, useLocalSearchParams } from 'expo-router'
 
+import useUser from '@hooks/useUser'
 import AuthorDetails from '@screens/author-details/AuthorDetails'
-
-import users from '../../data/users'
 
 export default function AuthorDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>()
-  const user = users.find((u) => u.id === Number(id))
+  const { data: user } = useUser(id ? Number(id) : null)
 
   if (!user) return null
 
