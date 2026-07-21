@@ -14,6 +14,9 @@ const places: Place[] = [
       { latitude: 50.4933, longitude: 30.372 },
       { latitude: 50.4933, longitude: 30.368 },
     ],
+    mgmt_phone: '+380 44 123 45 67',
+    security_phone: '+380 44 987 65 43',
+    elevator_emergency: '+380 44 555 55 55',
   },
 ]
 

@@ -9,9 +9,10 @@ import useColors from '@constants/useColors'
 
 interface Props {
   openSearchClick: () => void
+  placeName: string
 }
 
-const HomeHeader: React.FC<Props> = ({ openSearchClick }) => {
+const HomeHeader: React.FC<Props> = ({ openSearchClick, placeName }) => {
   const colors = useColors()
   const router = useRouter()
 
@@ -19,7 +20,7 @@ const HomeHeader: React.FC<Props> = ({ openSearchClick }) => {
     <Header>
       <YStack>
         <Text fontSize={12} color={colors.accent} fontWeight="400" letterSpacing={0.6}>
-          TETRIS HALL COMPLEX
+          {placeName.toLocaleUpperCase()}
         </Text>
         <Text fontSize={28} fontWeight="600" color={colors.textPrimary}>
           Hello, Olexander!

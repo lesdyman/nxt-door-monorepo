@@ -1,9 +1,14 @@
 import { Info, Phone, ShieldAlert, Wrench } from 'lucide-react-native'
 import { Text, XStack, YStack } from 'tamagui'
 
+import Place from '@constants/Place'
 import useColors from '@constants/useColors'
 
-const InfoBlock = () => {
+interface Props {
+  place: Place
+}
+
+const InfoBlock: React.FC<Props> = ({ place }) => {
   const colors = useColors()
   return (
     <YStack
@@ -28,7 +33,7 @@ const InfoBlock = () => {
           <Info width={20} height={20} color={colors.textSecondary} />
         </XStack>
         <Text fontSize={12} lineHeight={16} fontWeight="400" color={colors.textSecondary}>
-          Stetsenka, 75A
+          {place.address}
         </Text>
       </YStack>
 
@@ -36,19 +41,19 @@ const InfoBlock = () => {
         <XStack items="center" gap="$2">
           <Phone width={15} height={13} color={colors.iconSubtle} />
           <Text fontSize={14} lineHeight={20} color={colors.textMuted}>
-            Management Company: +38 044 123 45 67
+            Management Company: {place.mgmt_phone}
           </Text>
         </XStack>
         <XStack items="center" gap="$2">
           <ShieldAlert width={15} height={13} color={colors.iconSubtle} />
           <Text fontSize={14} lineHeight={20} color={colors.textMuted}>
-            Security: +38 044 123 45 67
+            Security: {place.security_phone}
           </Text>
         </XStack>
         <XStack items="center" gap="$2">
           <Wrench width={15} height={13} color={colors.iconSubtle} />
           <Text fontSize={14} lineHeight={20} color={colors.textMuted}>
-            Elevator Emergency: +38 044 123 45 67
+            Elevator Emergency: {place.elevator_emergency}
           </Text>
         </XStack>
       </YStack>

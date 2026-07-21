@@ -10,7 +10,7 @@ const LIST_HEIGHT = 220
 
 const NeighborsAreLooking = () => {
   const colors = useColors()
-  const requests = usePosts('order', 3)
+  const requests = usePosts({ side: 'order', limit: 3 })
 
   return (
     <YStack gap="$3" px="$4">

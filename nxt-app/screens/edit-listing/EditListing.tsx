@@ -18,12 +18,15 @@ import {
 
 import BrandButton from '@components/BrandButton'
 import Header from '@components/Header'
+import Loader from '@components/Loader'
 import { Listing } from '@constants/types/Listing'
 import useColors from '@constants/useColors'
+import useConfirmDeleteListing from '@hooks/useConfirmDeleteListing'
 import CategorySelect from '@screens/new-post/components/CategorySelect'
 
 import CurrencySelect from './components/CurrencySelect'
 import EditListingPhotos from './components/EditListingPhotos'
+import useUpdateListing from './hooks/useUpdateListing'
 
 interface Props {
   listing: Listing
@@ -32,6 +35,8 @@ interface Props {
 const EditListing: React.FC<Props> = ({ listing }) => {
   const colors = useColors()
   const router = useRouter()
+  const updateListing = useUpdateListing()
+  const { confirmDelete, isPending: isDeleting } = useConfirmDeleteListing()
 
   const [images, setImages] = useState(listing.images)
   const [title, setTitle] = useState(listing.title)
@@ -39,8 +44,8 @@ const EditListing: React.FC<Props> = ({ listing }) => {
   const [currency, setCurrency] = useState(listing.currency)
   const [description, setDescription] = useState(listing.description)
   const [category, setCategory] = useState(listing.category)
-  const [markAsSold, setMarkAsSold] = useState(false)
-  const [isDeactivated, setIsDeactivated] = useState(false)
+  const [markAsSold, setMarkAsSold] = useState(listing.status === 'closed')
+  const [isDeactivated, setIsDeactivated] = useState(listing.status === 'disabled')
 
   const toggleMarkAsSold = (value: boolean) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
@@ -51,6 +56,24 @@ const EditListing: React.FC<Props> = ({ listing }) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     setIsDeactivated(value)
   }
+
+  const handleSaveChanges = async () => {
+    await updateListing.mutateAsync({
+      id: listing.id,
+      payload: {
+        title,
+        description,
+        price: Number(price),
+        currency,
+        images,
+        category,
+        status: isDeactivated ? 'disabled' : markAsSold ? 'closed' : 'active',
+      },
+    })
+    router.back()
+  }
+
+  const handleDelete = () => confirmDelete(listing.id, () => router.back())
 
   return (
     <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1, backgroundColor: colors.background }}>
@@ -219,7 +242,8 @@ const EditListing: React.FC<Props> = ({ listing }) => {
             borderColor={colors.notificationDot}
             pressStyle={{ bg: 'rgba(229, 72, 77, 0.15)', borderColor: colors.notificationDot }}
             focusStyle={{ bg: 'rgba(229, 72, 77, 0.15)', borderColor: colors.notificationDot }}
-            onPress={() => {}}
+            disabled={isDeleting}
+            onPress={handleDelete}
           >
             <XStack items="center" gap="$2">
               <Trash2 size={16} color={colors.notificationDot} />
@@ -239,13 +263,19 @@ const EditListing: React.FC<Props> = ({ listing }) => {
         borderColor={colors.border}
         bg={colors.background}
       >
-        <BrandButton onPress={() => {}}>
-          <XStack items="center" gap="$2">
-            <Save size={18} color={colors.white} />
-            <Text color={colors.white} fontSize={16} fontWeight="600">
-              Save Changes
-            </Text>
-          </XStack>
+        <BrandButton onPress={handleSaveChanges} disabled={updateListing.isPending}>
+          {updateListing.isPending ? (
+            <YStack style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}>
+              <Loader size={28} colorPrimary={colors.white} colorSecondary={colors.amber} />
+            </YStack>
+          ) : (
+            <XStack items="center" gap="$2">
+              <Save size={18} color={colors.white} />
+              <Text color={colors.white} fontSize={16} fontWeight="600">
+                Save Changes
+              </Text>
+            </XStack>
+          )}
         </BrandButton>
       </YStack>
     </SafeAreaView>

@@ -13,6 +13,8 @@ import InfoBlock from '@screens/home/InfoBlock'
 import LatestOffers from '@screens/home/LatestOffers'
 import NeighborsAreLooking from '@screens/home/NeighborsAreLooking'
 
+import places from '../../data/places'
+
 export default function HomeScreen() {
   const colors = useColors()
   const { openSearch } = useSearch()
@@ -26,9 +28,11 @@ export default function HomeScreen() {
     setRefreshing(false)
   }
 
+  const place = places[0]
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.background }}>
-      <HomeHeader openSearchClick={() => openSearch()} />
+      <HomeHeader openSearchClick={() => openSearch()} placeName={place.name} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         onScroll={onScroll}
@@ -42,7 +46,7 @@ export default function HomeScreen() {
         }
       >
         <YStack flex={1} gap="$4" pb="$4">
-          <InfoBlock />
+          <InfoBlock place={place} />
           <LatestOffers />
           <NeighborsAreLooking />
         </YStack>

@@ -4,9 +4,7 @@ type User = {
   avatar: string
   rating: number
   reviewsCount: number
-  userPosts: number[]
   place_id: string
-  ordersIds: number[]
   dealsCount: number
   createdAt: Date
   updatedAt: Date

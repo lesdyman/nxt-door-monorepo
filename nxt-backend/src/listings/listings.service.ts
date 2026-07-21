@@ -12,9 +12,9 @@ export class ListingsService {
     return this.prisma.listing.create({ data: createListingDto });
   }
 
-  findAll({ side, limit = 20, offset = 0 }: FindListingsQueryDto) {
+  findAll({ side, userId, limit = 20, offset = 0 }: FindListingsQueryDto) {
     return this.prisma.listing.findMany({
-      where: side ? { side } : undefined,
+      where: { side, userId },
       orderBy: { createdAt: 'desc' },
       take: limit,
       skip: offset,

@@ -19,7 +19,7 @@ const LatestOffers = () => {
   const { width } = useWindowDimensions()
   const cardWidth = width
 
-  const offers = usePosts('offer', 5)
+  const offers = usePosts({ side: 'offer', limit: 5 })
 
   return (
     <YStack gap="$3">

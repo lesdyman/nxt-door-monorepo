@@ -10,6 +10,7 @@ import BrandButton from '@components/BrandButton'
 import Post from '@components/Post/Post'
 import User from '@constants/types/User'
 import useColors from '@constants/useColors'
+import usePosts from '@hooks/usePosts'
 
 import mockListings from '../../data/mockListings'
 import reviews from '../../data/reviews'
@@ -29,12 +30,11 @@ const AuthorDetails: React.FC<Props> = ({ user }) => {
   const [activeTab, setActiveTab] = useState<AuthorDetailsTab>('listings')
   const router = useRouter()
 
+  const { data: userListings } = usePosts({ userId: user.id, limit: 100 })
+
   const activeListings = useMemo(
-    () =>
-      mockListings.filter(
-        (listing) => user.userPosts.includes(listing.id) && listing.status === 'active'
-      ),
-    [user.userPosts]
+    () => (userListings ?? []).filter((listing) => listing.status === 'active'),
+    [userListings]
   )
 
   const userReviews = useMemo(
