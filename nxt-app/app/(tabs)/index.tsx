@@ -24,7 +24,7 @@ export default function HomeScreen() {
 
   const handleRefresh = async () => {
     setRefreshing(true)
-    await queryClient.invalidateQueries({ queryKey: ['posts'] })
+    await queryClient.invalidateQueries({ queryKey: ['listings'] })
     setRefreshing(false)
   }
 

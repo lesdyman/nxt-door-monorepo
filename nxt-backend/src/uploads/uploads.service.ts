@@ -1,5 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import {
+  DeleteObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from '@aws-sdk/client-s3';
 import { randomUUID } from 'crypto';
 
 @Injectable()
@@ -26,5 +30,20 @@ export class UploadsService {
     );
 
     return `${process.env.R2_PUBLIC_URL}/${key}`;
+  }
+
+  async deleteFile(url: string): Promise<void> {
+    const key = url.replace(`${process.env.R2_PUBLIC_URL}/`, '');
+
+    await this.s3.send(
+      new DeleteObjectCommand({
+        Bucket: process.env.R2_BUCKET_NAME,
+        Key: key,
+      }),
+    );
+  }
+
+  async deleteFiles(urls: string[]): Promise<void> {
+    await Promise.all(urls.map((url) => this.deleteFile(url)));
   }
 }

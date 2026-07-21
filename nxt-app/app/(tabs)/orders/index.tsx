@@ -8,13 +8,13 @@ import { YStack } from 'tamagui'
 
 import FilterBar from '@components/FilterBar/FilterBar'
 import Header from '@components/Header'
-import PostSkeleton from '@components/Post/components/PostSkeleton'
-import Post from '@components/Post/Post'
+import ListingSkeleton from '@components/Listing/components/ListingSkeleton'
+import ListingCard from '@components/Listing/Listing'
 import TabHeader from '@components/TabHeader'
 import { Listing } from '@constants/types/Listing'
 import useColors from '@constants/useColors'
 import { useTabBar } from '@contexts/TabBarContext'
-import usePostsInfinity from '@hooks/usePostsInfinity'
+import useListingsInfinity from '@hooks/useListingsInfinity'
 
 const SKELETON_COUNT = 6
 
@@ -24,11 +24,11 @@ export default function OrdersScreen() {
   const queryClient = useQueryClient()
   const { onScroll } = useTabBar()
   const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage, refetch, isRefetching } =
-    usePostsInfinity('order', 20)
+    useListingsInfinity('order', 20)
   const orders = data?.pages.flat() ?? []
 
   const handlePress = (item: Listing) => {
-    queryClient.setQueryData(['postDetails', item.id], item)
+    queryClient.setQueryData(['listingDetails', item.id], item)
     router.push(`/orders/${item.id}`)
   }
 
@@ -43,7 +43,7 @@ export default function OrdersScreen() {
           <YStack gap={13} style={{ paddingHorizontal: 18, paddingBottom: 20 }}>
             <Skeleton.Group show>
               {Array.from({ length: SKELETON_COUNT }).map((_, index) => (
-                <PostSkeleton key={index} />
+                <ListingSkeleton key={index} />
               ))}
             </Skeleton.Group>
           </YStack>
@@ -51,7 +51,7 @@ export default function OrdersScreen() {
           <FlatList
             data={orders}
             keyExtractor={(item) => String(item.id)}
-            renderItem={({ item }) => <Post data={item} onPress={() => handlePress(item)} />}
+            renderItem={({ item }) => <ListingCard data={item} onPress={() => handlePress(item)} />}
             ItemSeparatorComponent={() => <YStack height={13} />}
             contentContainerStyle={{ paddingHorizontal: 18, paddingBottom: 20 }}
             showsVerticalScrollIndicator={false}

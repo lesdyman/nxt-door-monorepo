@@ -7,10 +7,10 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Text, View, XStack, YStack } from 'tamagui'
 
 import BrandButton from '@components/BrandButton'
-import Post from '@components/Post/Post'
+import ListingCard from '@components/Listing/Listing'
 import User from '@constants/types/User'
 import useColors from '@constants/useColors'
-import usePosts from '@hooks/usePosts'
+import useListings from '@hooks/useListings'
 
 import mockListings from '../../data/mockListings'
 import reviews from '../../data/reviews'
@@ -30,7 +30,7 @@ const AuthorDetails: React.FC<Props> = ({ user }) => {
   const [activeTab, setActiveTab] = useState<AuthorDetailsTab>('listings')
   const router = useRouter()
 
-  const { data: userListings } = usePosts({ userId: user.id, limit: 100 })
+  const { data: userListings } = useListings({ userId: user.id, limit: 100 })
 
   const activeListings = useMemo(
     () => (userListings ?? []).filter((listing) => listing.status === 'active'),
@@ -75,7 +75,7 @@ const AuthorDetails: React.FC<Props> = ({ user }) => {
                 </YStack>
               ) : (
                 activeListings.map((listing) => (
-                  <Post
+                  <ListingCard
                     key={listing.id}
                     data={listing}
                     onPress={() => router.push(`/listing/${listing.id}`)}

@@ -3,17 +3,19 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { Listing } from '@constants/types/Listing'
 import listingsService from '@services/listingsService'
 
-interface UsePostsParams {
+interface UseListingsParams {
   side?: string
   userId?: number
   limit?: number
 }
 
-const usePosts = ({ side, userId, limit = 50 }: UsePostsParams = {}): UseQueryResult<Listing[]> => {
+const useListings = ({ side, userId, limit = 50 }: UseListingsParams = {}): UseQueryResult<
+  Listing[]
+> => {
   return useQuery({
-    queryKey: ['posts', side, userId, limit],
+    queryKey: ['listings', side, userId, limit],
     queryFn: () => listingsService.getListings({ side, userId, limit }),
   })
 }
 
-export default usePosts
+export default useListings

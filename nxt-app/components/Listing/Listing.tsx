@@ -16,7 +16,7 @@ interface Props {
   onPress?: () => void
 }
 
-const Post: React.FC<Props> = ({ data, onPress }) => {
+const ListingCard: React.FC<Props> = ({ data, onPress }) => {
   const colors = useColors()
   const hasImage = data.images.length > 0
 
@@ -93,4 +93,4 @@ const Post: React.FC<Props> = ({ data, onPress }) => {
   )
 }
 
-export default Post
+export default ListingCard

@@ -14,9 +14,9 @@ const useUpdateListing = () => {
     mutationFn: ({ id, payload }: UpdateListingParams) =>
       listingsService.updateListing(id, payload),
     onSuccess: (_data, { id }) => {
-      queryClient.invalidateQueries({ queryKey: ['posts'] })
-      queryClient.invalidateQueries({ queryKey: ['posts-infinite'] })
-      queryClient.invalidateQueries({ queryKey: ['postDetails', id] })
+      queryClient.invalidateQueries({ queryKey: ['listings'] })
+      queryClient.invalidateQueries({ queryKey: ['listings-infinite'] })
+      queryClient.invalidateQueries({ queryKey: ['listingDetails', id] })
     },
   })
 }

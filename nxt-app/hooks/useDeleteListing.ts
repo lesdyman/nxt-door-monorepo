@@ -7,9 +7,9 @@ const useDeleteListing = () => {
   return useMutation({
     mutationFn: (id: number) => listingsService.deleteListing(id),
     onSuccess: (_data, id) => {
-      queryClient.invalidateQueries({ queryKey: ['posts'] })
-      queryClient.invalidateQueries({ queryKey: ['posts-infinite'] })
-      queryClient.removeQueries({ queryKey: ['postDetails', id] })
+      queryClient.invalidateQueries({ queryKey: ['listings'] })
+      queryClient.invalidateQueries({ queryKey: ['listings-infinite'] })
+      queryClient.removeQueries({ queryKey: ['listingDetails', id] })
     },
   })
 }

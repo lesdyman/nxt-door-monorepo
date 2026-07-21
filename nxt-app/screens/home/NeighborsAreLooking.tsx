@@ -2,7 +2,7 @@ import { Text, YStack } from 'tamagui'
 
 import Loader from '@components/Loader'
 import useColors from '@constants/useColors'
-import usePosts from '@hooks/usePosts'
+import useListings from '@hooks/useListings'
 
 import NLCard from './NLCard'
 
@@ -10,7 +10,7 @@ const LIST_HEIGHT = 220
 
 const NeighborsAreLooking = () => {
   const colors = useColors()
-  const requests = usePosts({ side: 'order', limit: 3 })
+  const requests = useListings({ side: 'order', limit: 3 })
 
   return (
     <YStack gap="$3" px="$4">

@@ -3,7 +3,7 @@ import { useThemeName, XStack, YStack } from 'tamagui'
 
 import useColors from '@constants/useColors'
 
-const PostSkeleton = () => {
+const ListingSkeleton = () => {
   const colors = useColors()
   const themeName = useThemeName()
   const colorMode = themeName === 'dark' ? 'dark' : 'light'
@@ -36,4 +36,4 @@ const PostSkeleton = () => {
   )
 }
 
-export default PostSkeleton
+export default ListingSkeleton

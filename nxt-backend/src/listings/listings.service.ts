@@ -1,12 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { UploadsService } from '../uploads/uploads.service';
 import { CreateListingDto } from './dto/create-listing.dto';
 import { UpdateListingDto } from './dto/update-listing.dto';
 import { FindListingsQueryDto } from './dto/find-listings-query.dto';
 
 @Injectable()
 export class ListingsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly uploads: UploadsService,
+  ) {}
 
   create(createListingDto: CreateListingDto) {
     return this.prisma.listing.create({ data: createListingDto });
@@ -30,7 +34,17 @@ export class ListingsService {
   }
 
   async update(id: number, updateListingDto: UpdateListingDto) {
-    await this.findOne(id);
+    const existing = await this.findOne(id);
+
+    if (updateListingDto.images) {
+      const removedImages = existing.images.filter(
+        (image) => !updateListingDto.images!.includes(image),
+      );
+      if (removedImages.length > 0) {
+        await this.uploads.deleteFiles(removedImages);
+      }
+    }
+
     return this.prisma.listing.update({
       where: { id },
       data: updateListingDto,
@@ -38,7 +52,10 @@ export class ListingsService {
   }
 
   async remove(id: number) {
-    await this.findOne(id);
+    const listing = await this.findOne(id);
+    if (listing.images.length > 0) {
+      await this.uploads.deleteFiles(listing.images);
+    }
     return this.prisma.listing.delete({ where: { id } });
   }
 }

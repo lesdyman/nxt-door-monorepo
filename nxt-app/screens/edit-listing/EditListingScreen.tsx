@@ -1,12 +1,12 @@
 import { Stack, useLocalSearchParams } from 'expo-router'
 
-import usePostDetails from '@hooks/usePostDetails'
+import useListingDetails from '@hooks/useListingDetails'
 
 import EditListing from './EditListing'
 
 const EditListingScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>()
-  const { data: listing } = usePostDetails(Number(id))
+  const { data: listing } = useListingDetails(Number(id))
 
   if (!listing) return null
 

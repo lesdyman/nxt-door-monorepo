@@ -7,8 +7,8 @@ const useCreateListing = () => {
   return useMutation({
     mutationFn: listingsService.createListing,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['posts'] })
-      queryClient.invalidateQueries({ queryKey: ['posts-infinite'] })
+      queryClient.invalidateQueries({ queryKey: ['listings'] })
+      queryClient.invalidateQueries({ queryKey: ['listings-infinite'] })
     },
   })
 }

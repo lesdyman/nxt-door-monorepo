@@ -6,7 +6,7 @@ import { Text, useWindowDimensions, XStack, YStack } from 'tamagui'
 
 import Loader from '@components/Loader'
 import useColors from '@constants/useColors'
-import usePosts from '@hooks/usePosts'
+import useListings from '@hooks/useListings'
 
 import OfferCard from './OfferCard'
 
@@ -19,7 +19,7 @@ const LatestOffers = () => {
   const { width } = useWindowDimensions()
   const cardWidth = width
 
-  const offers = usePosts({ side: 'offer', limit: 5 })
+  const offers = useListings({ side: 'offer', limit: 5 })
 
   return (
     <YStack gap="$3">
