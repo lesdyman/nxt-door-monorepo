@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "next_door",
+    "name": "Next Door",
     "slug": "next-door",
     "scheme": "next_door",
     "version": "1.0.0",
@@ -17,6 +17,11 @@
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDubqV9px8F8i9-8-_RawreVienXDkEJ8I"
+        }
       },
       "predictiveBackGestureEnabled": false,
       "package": "com.lesdyman.nextdoor"

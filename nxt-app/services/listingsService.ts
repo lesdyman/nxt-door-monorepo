@@ -1,10 +1,11 @@
 import axios from 'axios'
 
+import API_URL from '@constants/apiUrl'
 import { Listing } from '@constants/types/Listing'
 import { Side } from '@constants/types/Side'
 import transformListingData, { ListingResponse } from '@utils/transformListingData'
 
-const BASE_URL = 'http://localhost:3000/listings'
+const BASE_URL = `${API_URL}/listings`
 
 interface GetListingsParams {
   side?: string
