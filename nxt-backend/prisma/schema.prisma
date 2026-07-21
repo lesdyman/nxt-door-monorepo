@@ -36,9 +36,39 @@ model Listing {
   category    String
   status      ListingStatus @default(active)
   userId      Int
+  user        User          @relation(fields: [userId], references: [id])
   latitude    Float
   longitude   Float
   address     String
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  name         String
+  avatar       String
+  onboarded    Boolean   @default(false)
+  rating       Float     @default(0)
+  reviewsCount Int       @default(0)
+  dealsCount   Int       @default(0)
+  placeId      String
+  place        Place     @relation(fields: [placeId], references: [id])
+  listings     Listing[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Place {
+  id                String  @id
+  name              String
+  address           String
+  buildings         String[]
+  latitude          Float
+  longitude         Float
+  boundary          Json
+  mgmtPhone         String?
+  securityPhone     String?
+  elevatorEmergency String?
+  users             User[]
 }
