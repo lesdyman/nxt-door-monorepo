@@ -6,13 +6,15 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Text, YStack } from 'tamagui'
 
 import BackHeader from '@components/BackHeader'
-import Loader from '@components/Loader'
 import useColors from '@constants/useColors'
 import useCurrentUser from '@hooks/useCurrentUser'
 import useSavedListings from '@hooks/useSavedListings'
 import savedListingsService from '@services/savedListingsService'
 
 import SavedListingCard from './components/SavedListingCard'
+import SavedListingSkeleton from './components/SavedListingSkeleton'
+
+const SKELETON_COUNT = 6
 
 const Saved = () => {
   const colors = useColors()
@@ -33,8 +35,10 @@ const Saved = () => {
       <BackHeader title="Saved" />
       <ScrollView showsVerticalScrollIndicator={false}>
         {isLoading ? (
-          <YStack flex={1} items="center" justify="center" py="$8">
-            <Loader size={32} colorPrimary={colors.brand} colorSecondary={colors.amber} />
+          <YStack px="$4">
+            {Array.from({ length: SKELETON_COUNT }).map((_, index) => (
+              <SavedListingSkeleton key={index} />
+            ))}
           </YStack>
         ) : savedListingsWithListing.length > 0 ? (
           <YStack px="$4">
