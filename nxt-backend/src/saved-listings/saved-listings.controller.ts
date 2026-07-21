@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { SavedListingsService } from './saved-listings.service';
 import { CreateSavedListingDto } from './dto/create-saved-listing.dto';
 
@@ -12,8 +20,8 @@ export class SavedListingsController {
   }
 
   @Get()
-  findAll() {
-    return this.savedListingsService.findAll();
+  findAll(@Query('userId') userId?: string) {
+    return this.savedListingsService.findAll(userId ? +userId : undefined);
   }
 
   @Get(':id')
@@ -22,7 +30,7 @@ export class SavedListingsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.savedListingsService.remove(+id);
+  remove(@Param('id') id: string, @Query('userId') userId: string) {
+    return this.savedListingsService.remove(+id, +userId);
   }
 }

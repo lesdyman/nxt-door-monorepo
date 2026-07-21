@@ -6,28 +6,44 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Text, YStack } from 'tamagui'
 
 import BackHeader from '@components/BackHeader'
+import Loader from '@components/Loader'
 import useColors from '@constants/useColors'
+import useCurrentUser from '@hooks/useCurrentUser'
+import useSavedListings from '@hooks/useSavedListings'
+import savedListingsService from '@services/savedListingsService'
 
-import mockListings from '../../data/mockListings'
-import savedListingIds from '../../data/savedListingIds'
 import SavedListingCard from './components/SavedListingCard'
 
 const Saved = () => {
   const colors = useColors()
   const router = useRouter()
-  const savedListings = mockListings.filter((listing) => savedListingIds.includes(listing.id))
+  const { user } = useCurrentUser()
+
+  const { data: savedListings, isLoading, refetch } = useSavedListings(user?.id)
+  const savedListingsWithListing = (savedListings ?? []).filter((item) => !!item.listing)
+
+  const handleDelete = async (savedListingId: number) => {
+    if (!user) return
+    await savedListingsService.removeListingFromSaved(savedListingId, user.id)
+    await refetch()
+  }
 
   return (
     <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1, backgroundColor: colors.background }}>
       <BackHeader title="Saved" />
       <ScrollView showsVerticalScrollIndicator={false}>
-        {savedListings.length > 0 ? (
+        {isLoading ? (
+          <YStack flex={1} items="center" justify="center" py="$8">
+            <Loader size={32} colorPrimary={colors.brand} colorSecondary={colors.amber} />
+          </YStack>
+        ) : savedListingsWithListing.length > 0 ? (
           <YStack px="$4">
-            {savedListings.map((listing) => (
+            {savedListingsWithListing.map((savedListing) => (
               <SavedListingCard
-                key={listing.id}
-                listing={listing}
-                onPress={() => router.push(`/listing/${listing.id}`)}
+                key={savedListing.id}
+                listing={savedListing.listing!}
+                onPress={() => router.push(`/listing/${savedListing.listing!.id}`)}
+                onDelete={() => handleDelete(savedListing.id)}
               />
             ))}
           </YStack>

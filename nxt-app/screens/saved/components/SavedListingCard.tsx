@@ -12,6 +12,7 @@ import nameReducer from '../../../utils/nameReducer'
 interface Props {
   listing: Listing
   onPress?: () => void
+  onDelete?: () => void
 }
 
 const STATUS_LABEL: Record<ListingStatus, string> = {
@@ -21,7 +22,7 @@ const STATUS_LABEL: Record<ListingStatus, string> = {
   disabled: 'Hidden',
 }
 
-const SavedListingCard: React.FC<Props> = ({ listing, onPress }) => {
+const SavedListingCard: React.FC<Props> = ({ listing, onPress, onDelete }) => {
   const colors = useColors()
   const statusColorsByStatus: Record<ListingStatus, { bg: string; text: string }> = {
     active: { bg: colors.offeringBadgeBg, text: colors.offeringBadgeText },
@@ -87,7 +88,9 @@ const SavedListingCard: React.FC<Props> = ({ listing, onPress }) => {
           </XStack>
         </YStack>
 
-        <Heart size={20} color={colors.notificationDot} fill={colors.notificationDot} />
+        <TouchableOpacity onPress={onDelete} hitSlop={10}>
+          <Heart size={20} color={colors.notificationDot} fill={colors.notificationDot} />
+        </TouchableOpacity>
         <ChevronRight size={18} color={colors.textSecondary} />
       </XStack>
     </TouchableOpacity>
