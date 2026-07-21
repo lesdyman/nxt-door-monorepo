@@ -2,7 +2,6 @@ import { ActivityIndicator, FlatList, RefreshControl } from 'react-native'
 
 import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
-import { Skeleton } from 'moti/skeleton'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { YStack } from 'tamagui'
 
@@ -41,11 +40,9 @@ export default function OrdersScreen() {
         <FilterBar />
         {isLoading ? (
           <YStack gap={13} style={{ paddingHorizontal: 18, paddingBottom: 20 }}>
-            <Skeleton.Group show>
-              {Array.from({ length: SKELETON_COUNT }).map((_, index) => (
-                <ListingSkeleton key={index} />
-              ))}
-            </Skeleton.Group>
+            {Array.from({ length: SKELETON_COUNT }).map((_, index) => (
+              <ListingSkeleton key={index} />
+            ))}
           </YStack>
         ) : (
           <FlatList
