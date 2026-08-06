@@ -1,4 +1,8 @@
-import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import {
+  createParamDecorator,
+  ExecutionContext,
+  UnauthorizedException,
+} from '@nestjs/common';
 import type { Request } from 'express';
 
 export interface CurrentAuthUser {
@@ -8,11 +12,17 @@ export interface CurrentAuthUser {
 }
 
 export interface RequestWithAuthUser extends Request {
-  authUser: CurrentAuthUser;
+  authUser?: CurrentAuthUser;
 }
 
 export const CurrentUser = createParamDecorator(
   (_: unknown, ctx: ExecutionContext): CurrentAuthUser => {
-    return ctx.switchToHttp().getRequest<RequestWithAuthUser>().authUser;
+    const authUser = ctx
+      .switchToHttp()
+      .getRequest<RequestWithAuthUser>().authUser;
+    if (!authUser) {
+      throw new UnauthorizedException();
+    }
+    return authUser;
   },
 );
