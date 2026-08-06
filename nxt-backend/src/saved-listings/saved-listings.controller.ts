@@ -21,7 +21,7 @@ export class SavedListingsController {
 
   @Get()
   findAll(@Query('userId') userId?: string) {
-    return this.savedListingsService.findAll(userId ? +userId : undefined);
+    return this.savedListingsService.findAll(userId);
   }
 
   @Get(':id')
@@ -31,6 +31,6 @@ export class SavedListingsController {
 
   @Delete(':id')
   remove(@Param('id') id: string, @Query('userId') userId: string) {
-    return this.savedListingsService.remove(+id, +userId);
+    return this.savedListingsService.remove(+id, userId);
   }
 }

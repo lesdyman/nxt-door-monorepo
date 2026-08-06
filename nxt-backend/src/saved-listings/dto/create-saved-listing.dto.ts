@@ -1,8 +1,8 @@
-import { IsInt } from 'class-validator';
+import { IsInt, IsString } from 'class-validator';
 
 export class CreateSavedListingDto {
-  @IsInt()
-  userId!: number;
+  @IsString()
+  userId!: string;
 
   @IsInt()
   listingId!: number;

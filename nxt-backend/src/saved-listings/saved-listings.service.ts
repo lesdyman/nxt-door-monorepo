@@ -29,7 +29,7 @@ export class SavedListingsService {
     }
   }
 
-  findAll(userId: number | undefined) {
+  findAll(userId: string | undefined) {
     return this.prisma.savedListing.findMany({
       where: userId ? { userId } : {},
       include: {
@@ -42,7 +42,7 @@ export class SavedListingsService {
     return this.prisma.savedListing.findUnique({ where: { id } });
   }
 
-  async remove(id: number, userId: number) {
+  async remove(id: number, userId: string) {
     const savedListing = await this.prisma.savedListing.findUnique({
       where: { id },
     });
