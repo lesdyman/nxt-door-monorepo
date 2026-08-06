@@ -6,16 +6,16 @@ import transformListingData, { ListingResponse } from '@utils/transformListingDa
 
 type SavedListingResponse = {
   id: number
-  userId: number
+  userId: string
   listingId: number
   listing?: ListingResponse
 }
 
+// userId is never sent — the backend always scopes these to the session's
+// own user (see nxt-backend/API.md's saved-listings section).
 const savedListingsService = {
-  getAllSavedListingsForUser: async (userId?: number): Promise<SavedListing[]> => {
-    const response = await axios.get(`${API_URL}/saved-listings`, {
-      params: { userId },
-    })
+  getAllSavedListings: async (): Promise<SavedListing[]> => {
+    const response = await axios.get(`${API_URL}/saved-listings`)
     return response.data.map((savedListing: SavedListingResponse) => ({
       id: savedListing.id,
       userId: savedListing.userId,
@@ -24,18 +24,15 @@ const savedListingsService = {
     }))
   },
 
-  addListingToSaved: async (listingId: number, userId: number) => {
+  addListingToSaved: async (listingId: number) => {
     const response = await axios.post(`${API_URL}/saved-listings`, {
       listingId,
-      userId,
     })
     return response.data
   },
 
-  removeListingFromSaved: async (savedListingId: number, userId: number) => {
-    const response = await axios.delete(`${API_URL}/saved-listings/${savedListingId}`, {
-      params: { userId },
-    })
+  removeListingFromSaved: async (savedListingId: number) => {
+    const response = await axios.delete(`${API_URL}/saved-listings/${savedListingId}`)
     return response.data
   },
 }

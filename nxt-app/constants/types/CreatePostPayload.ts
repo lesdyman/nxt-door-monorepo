@@ -10,7 +10,6 @@ interface CreateListingPayload {
   side: Side
   category: string
   status?: ListingStatus
-  userId: number
   latitude: number
   longitude: number
   address: string

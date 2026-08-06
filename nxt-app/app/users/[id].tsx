@@ -5,7 +5,7 @@ import AuthorDetails from '@screens/author-details/AuthorDetails'
 
 export default function AuthorDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>()
-  const { data: user } = useUser(id ? Number(id) : null)
+  const { data: user } = useUser(id ?? null)
 
   if (!user) return null
 

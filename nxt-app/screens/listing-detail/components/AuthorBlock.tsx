@@ -5,7 +5,7 @@ import useColors from '@constants/useColors'
 import useUser from '@hooks/useUser'
 
 interface Props {
-  postAuthorId: number
+  postAuthorId: string
 }
 
 const AuthorBlock: React.FC<Props> = ({ postAuthorId }) => {
