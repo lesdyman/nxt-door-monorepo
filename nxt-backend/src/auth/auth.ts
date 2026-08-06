@@ -17,11 +17,17 @@ const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
-  // `User` already exists as the app's business-profile model (Int id, place/rating/etc).
-  // Keep Better Auth's own identity table separate so it doesn't merge into it and
-  // collide on id type (Better Auth uses string ids; `User.id` is an autoincrement Int).
+  /* `User` already exists as the app's business-profile model (place/rating/etc,
+  id shared 1:1 with authUser.id). Keep Better Auth's own identity table
+  separate so schema generation doesn't merge into it.*/
   user: {
     modelName: 'authUser',
+  },
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    },
   },
 });
 

@@ -1,12 +1,6 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-  Delete,
-  Query,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
+import { CurrentUser } from '../auth/current-user.decorator';
+import type { CurrentAuthUser } from '../auth/current-user.decorator';
 import { SavedListingsService } from './saved-listings.service';
 import { CreateSavedListingDto } from './dto/create-saved-listing.dto';
 
@@ -15,13 +9,16 @@ export class SavedListingsController {
   constructor(private readonly savedListingsService: SavedListingsService) {}
 
   @Post()
-  create(@Body() createSavedListingDto: CreateSavedListingDto) {
-    return this.savedListingsService.create(createSavedListingDto);
+  create(
+    @Body() createSavedListingDto: CreateSavedListingDto,
+    @CurrentUser() authUser: CurrentAuthUser,
+  ) {
+    return this.savedListingsService.create(createSavedListingDto, authUser.id);
   }
 
   @Get()
-  findAll(@Query('userId') userId?: string) {
-    return this.savedListingsService.findAll(userId);
+  findAll(@CurrentUser() authUser: CurrentAuthUser) {
+    return this.savedListingsService.findAll(authUser.id);
   }
 
   @Get(':id')
@@ -30,7 +27,7 @@ export class SavedListingsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string, @Query('userId') userId: string) {
-    return this.savedListingsService.remove(+id, userId);
+  remove(@Param('id') id: string, @CurrentUser() authUser: CurrentAuthUser) {
+    return this.savedListingsService.remove(+id, authUser.id);
   }
 }

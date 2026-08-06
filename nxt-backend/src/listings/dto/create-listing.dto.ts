@@ -36,9 +36,6 @@ export class CreateListingDto {
   @IsEnum(ListingStatus)
   status?: ListingStatus;
 
-  @IsString()
-  userId!: string;
-
   @IsNumber()
   latitude!: number;
 

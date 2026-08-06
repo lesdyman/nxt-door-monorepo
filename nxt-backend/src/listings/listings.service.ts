@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { UploadsService } from '../uploads/uploads.service';
 import { CreateListingDto } from './dto/create-listing.dto';
@@ -12,8 +16,10 @@ export class ListingsService {
     private readonly uploads: UploadsService,
   ) {}
 
-  create(createListingDto: CreateListingDto) {
-    return this.prisma.listing.create({ data: createListingDto });
+  create(createListingDto: CreateListingDto, userId: string) {
+    return this.prisma.listing.create({
+      data: { ...createListingDto, userId },
+    });
   }
 
   findAll({ side, userId, limit = 20, offset = 0 }: FindListingsQueryDto) {
@@ -33,8 +39,11 @@ export class ListingsService {
     return listing;
   }
 
-  async update(id: number, updateListingDto: UpdateListingDto) {
+  async update(id: number, updateListingDto: UpdateListingDto, userId: string) {
     const existing = await this.findOne(id);
+    if (existing.userId !== userId) {
+      throw new ForbiddenException('You can only edit your own listings');
+    }
 
     if (updateListingDto.images) {
       const removedImages = existing.images.filter(
@@ -51,8 +60,11 @@ export class ListingsService {
     });
   }
 
-  async remove(id: number) {
+  async remove(id: number, userId: string) {
     const listing = await this.findOne(id);
+    if (listing.userId !== userId) {
+      throw new ForbiddenException('You can only delete your own listings');
+    }
     if (listing.images.length > 0) {
       await this.uploads.deleteFiles(listing.images);
     }
