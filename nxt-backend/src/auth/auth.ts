@@ -16,6 +16,10 @@ const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+    // TODO(unresolved): password reset is broken — /api/auth/request-password-reset
+    // currently 400s with RESET_PASSWORD_DISABLED. Needs a `sendResetPassword`
+    // callback backed by a real transactional email provider (none wired up yet,
+    // same blocker as email verification). See API.md's Authentication section.
   },
   /* `User` already exists as the app's business-profile model (place/rating/etc,
   id shared 1:1 with authUser.id). Keep Better Auth's own identity table
