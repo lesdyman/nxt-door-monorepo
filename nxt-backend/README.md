@@ -2,6 +2,8 @@
 
 NestJS backend for the Next Door app. Part of the `nxt_door` pnpm monorepo — see the [root README](../README.md) for monorepo-wide setup.
 
+See [API.md](./API.md) for the full endpoint reference (auth, listings, saved-listings, users, places, uploads).
+
 ## Setup
 
 Dependencies are installed from the monorepo root, not from inside this folder:

@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
+import { Public } from '../auth/public.decorator';
 import { PlacesService } from './places.service';
 import { CreatePlaceDto } from './dto/create-place.dto';
 import { UpdatePlaceDto } from './dto/update-place.dto';
@@ -20,11 +21,13 @@ export class PlacesController {
     return this.placesService.create(createPlaceDto);
   }
 
+  @Public()
   @Get()
   findAll() {
     return this.placesService.findAll();
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.placesService.findOne(id);

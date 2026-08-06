@@ -1,7 +1,6 @@
 import {
   IsArray,
   IsEnum,
-  IsInt,
   IsNumber,
   IsOptional,
   IsString,
@@ -36,9 +35,6 @@ export class CreateListingDto {
   @IsOptional()
   @IsEnum(ListingStatus)
   status?: ListingStatus;
-
-  @IsInt()
-  userId!: number;
 
   @IsNumber()
   latitude!: number;

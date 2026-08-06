@@ -26,7 +26,7 @@ enum ListingStatus {
 }
 
 model Listing {
-  id          Int           @id @default(autoincrement())
+  id          Int            @id @default(autoincrement())
   title       String
   description String
   price       Float
@@ -34,19 +34,20 @@ model Listing {
   images      String[]
   side        ListingSide
   category    String
-  status      ListingStatus @default(active)
-  userId      Int
-  user        User          @relation(fields: [userId], references: [id])
+  status      ListingStatus  @default(active)
+  userId      String
+  user        User           @relation(fields: [userId], references: [id])
   latitude    Float
   longitude   Float
   address     String
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
   savedBy     SavedListing[]
 }
 
 model User {
-  id            Int            @id @default(autoincrement())
+  id            String         @id
+  authUser      AuthUser       @relation(fields: [id], references: [id], onDelete: Cascade)
   name          String
   avatar        String
   onboarded     Boolean        @default(false)
@@ -62,7 +63,7 @@ model User {
 }
 
 model Place {
-  id                String  @id
+  id                String   @id
   name              String
   address           String
   buildings         String[]
@@ -77,11 +78,75 @@ model Place {
 
 model SavedListing {
   id        Int      @id @default(autoincrement())
-  userId    Int
+  userId    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   listingId Int
   listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 
   @@unique([userId, listingId])
+}
+
+model AuthUser {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+  user          User?
+
+  @@unique([email])
+  @@map("authUser")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  authuser  AuthUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  authuser              AuthUser  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
 }

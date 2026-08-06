@@ -1,6 +1,9 @@
 {
   "name": "nxt-door-root",
   "private": true,
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "backend": "pnpm --filter nxt-backend start:dev",
     "app": "pnpm --filter nxt-app start",

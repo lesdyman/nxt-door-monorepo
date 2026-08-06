@@ -10,10 +10,10 @@ import { PrismaService } from '../prisma/prisma.service';
 export class SavedListingsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createSavedListingDto: CreateSavedListingDto) {
+  async create(createSavedListingDto: CreateSavedListingDto, userId: string) {
     try {
       return await this.prisma.savedListing.create({
-        data: createSavedListingDto,
+        data: { ...createSavedListingDto, userId },
       });
     } catch (error: unknown) {
       const isUniqueConstraintError =
@@ -29,9 +29,9 @@ export class SavedListingsService {
     }
   }
 
-  findAll(userId: number | undefined) {
+  findAll(userId: string) {
     return this.prisma.savedListing.findMany({
-      where: userId ? { userId } : {},
+      where: { userId },
       include: {
         listing: true,
       },
@@ -42,7 +42,7 @@ export class SavedListingsService {
     return this.prisma.savedListing.findUnique({ where: { id } });
   }
 
-  async remove(id: number, userId: number) {
+  async remove(id: number, userId: string) {
     const savedListing = await this.prisma.savedListing.findUnique({
       where: { id },
     });

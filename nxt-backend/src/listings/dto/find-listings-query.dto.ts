@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsEnum, IsInt, IsOptional, Max, Min } from 'class-validator';
+import { IsEnum, IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
 import { ListingSide } from '../../generated/prisma/enums';
 
 export class FindListingsQueryDto {
@@ -8,9 +8,8 @@ export class FindListingsQueryDto {
   side?: ListingSide;
 
   @IsOptional()
-  @Type(() => Number)
-  @IsInt()
-  userId?: number;
+  @IsString()
+  userId?: string;
 
   @IsOptional()
   @Type(() => Number)
