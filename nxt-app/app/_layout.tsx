@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useColorScheme } from 'react-native'
 
+import { GoogleSans_500Medium } from '@expo-google-fonts/google-sans'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useFonts } from 'expo-font'
 import { SplashScreen, Stack, useRouter, useSegments } from 'expo-router'
@@ -41,6 +42,9 @@ export default function RootLayout() {
   const [loaded] = useFonts({
     Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
     InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
+    // Required by Google's "Sign in with Google" button branding guidelines
+    // (button font must be Google Sans Medium).
+    GoogleSans_500Medium,
   })
 
   useEffect(() => {
