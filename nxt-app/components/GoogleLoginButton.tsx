@@ -14,7 +14,14 @@ const GOOGLE_LIGHT = {
   text: '#1F1F1F' as ColorTokens,
 }
 
-const GoogleLoginButton = () => {
+interface Props {
+  // Google's branding guidelines only allow "Sign in with Google",
+  // "Sign up with Google", or "Continue with Google" as button text.
+  label?: 'Sign in with Google' | 'Sign up with Google' | 'Continue with Google'
+  onPress?: () => void
+}
+
+const GoogleLoginButton: React.FC<Props> = ({ label = 'Sign in with Google', onPress }) => {
   const colorScheme = useColorScheme()
   const palette = colorScheme === 'light' ? GOOGLE_LIGHT : GOOGLE_DARK
 
@@ -27,16 +34,17 @@ const GoogleLoginButton = () => {
       borderColor={palette.stroke}
       px={16}
       pressStyle={{ opacity: 0.85 }}
+      onPress={onPress}
     >
       <XStack items="center" justify="center" gap={12} flex={1}>
-        <Image src={require('../../../assets/g-logo.png')} width={20} height={20} />
+        <Image src={require('../assets/g-logo.png')} width={20} height={20} />
         <Text
           fontSize={14}
           lineHeight={20}
           color={palette.text}
           style={{ fontFamily: 'GoogleSans_500Medium' }}
         >
-          Sign in with Google
+          {label}
         </Text>
       </XStack>
     </Button>

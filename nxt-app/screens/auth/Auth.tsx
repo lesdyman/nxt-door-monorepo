@@ -1,12 +1,13 @@
+import { Link } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Svg, { Defs, RadialGradient, Rect, Stop } from 'react-native-svg'
 import { Text, View, XStack, YStack } from 'tamagui'
 
+import AppleLoginButton from '@components/AppleLoginButton'
+import GoogleLoginButton from '@components/GoogleLoginButton'
 import useColors from '@constants/useColors'
 
-import AppleLoginButton from './components/AppleLoginButton'
 import EmailLogin from './components/EmailLogin'
-import GoogleLoginButton from './components/GoogleLoginButton'
 import LogoBlock from './components/LogoBlock'
 
 export default function Auth() {
@@ -47,9 +48,11 @@ export default function Auth() {
             <Text fontSize={16} lineHeight={24} color={colors.textMuted}>
               Don&apos;t have an account?
             </Text>
-            <Text fontSize={16} lineHeight={24} color={colors.linkAccent}>
-              Sign Up
-            </Text>
+            <Link href="/sign-up" asChild>
+              <Text fontSize={16} lineHeight={24} fontWeight="600" color={colors.linkAccent}>
+                Sign Up
+              </Text>
+            </Link>
           </XStack>
         </YStack>
       </SafeAreaView>

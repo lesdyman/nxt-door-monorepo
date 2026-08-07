@@ -1,5 +1,6 @@
-import { Input, Text, XStack, YStack } from 'tamagui'
+import { Text, XStack, YStack } from 'tamagui'
 
+import FormInput from '@components/FormInput'
 import useColors from '@constants/useColors'
 
 const FilterSheetPrice = () => {
@@ -26,16 +27,11 @@ const FilterSheetPrice = () => {
           <Text fontSize={12} lineHeight={16} color={colors.textSecondary}>
             From
           </Text>
-          <Input
+          <FormInput
             placeholder="0"
             keyboardType="numeric"
-            placeholderTextColor="$gray9"
             fontSize={14}
             height={48}
-            color={colors.textPrimary}
-            borderColor={colors.border}
-            focusStyle={{ borderColor: colors.borderFocus }}
-            style={{ backgroundColor: colors.surface }}
             cursorColor={colors.textPrimary}
           />
         </YStack>
@@ -43,16 +39,11 @@ const FilterSheetPrice = () => {
           <Text fontSize={12} lineHeight={16} color={colors.textSecondary}>
             To
           </Text>
-          <Input
+          <FormInput
             placeholder="No limit"
             keyboardType="numeric"
-            placeholderTextColor="$gray9"
             fontSize={14}
             height={48}
-            color={colors.textPrimary}
-            borderColor={colors.border}
-            focusStyle={{ borderColor: colors.borderFocus }}
-            style={{ backgroundColor: colors.surface }}
             cursorColor={colors.textPrimary}
           />
         </YStack>

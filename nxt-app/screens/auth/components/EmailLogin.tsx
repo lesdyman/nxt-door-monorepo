@@ -1,6 +1,7 @@
-import { ColorTokens, Input, Text, XStack, YStack } from 'tamagui'
+import { Text, XStack, YStack } from 'tamagui'
 
 import BrandButton from '@components/BrandButton'
+import FormInput from '@components/FormInput'
 import useColors from '@constants/useColors'
 
 const EmailLogin = () => {
@@ -11,16 +12,7 @@ const EmailLogin = () => {
         <Text fontSize={16} lineHeight={24} color={colors.textMuted}>
           Email
         </Text>
-        <Input
-          bg={colors.surface}
-          color={colors.textPrimary}
-          borderColor={colors.border}
-          focusStyle={{ borderColor: colors.borderFocus }}
-          fontSize={16}
-          lineHeight={20}
-          placeholder="name@example.com"
-          placeholderTextColor={colors.textSecondary as ColorTokens}
-        />
+        <FormInput fontSize={16} lineHeight={20} placeholder="name@example.com" />
       </YStack>
       <YStack gap="$2">
         <XStack justify="space-between" items="center">
@@ -31,15 +23,10 @@ const EmailLogin = () => {
             Forgot password?
           </Text>
         </XStack>
-        <Input
-          bg={colors.surface}
-          color={colors.textPrimary}
-          borderColor={colors.border}
-          focusStyle={{ borderColor: colors.borderFocus }}
+        <FormInput
           fontSize={16}
           lineHeight={20}
           placeholder="Enter your password"
-          placeholderTextColor={colors.textSecondary as ColorTokens}
           secureTextEntry
         />
       </YStack>

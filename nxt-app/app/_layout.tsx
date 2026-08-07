@@ -27,7 +27,7 @@ function AuthGate({ children }: { children: React.ReactNode }) {
     // redirect a logged-in user to /auth for a frame before it resolves.
     if (isPending) return
 
-    const inAuthScreen = segments[0] === 'auth'
+    const inAuthScreen = segments[0] === 'auth' || segments[0] === 'sign-up'
     if (!userId && !inAuthScreen) {
       router.replace('/auth')
     }
@@ -65,6 +65,7 @@ export default function RootLayout() {
                 <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor } }}>
                   <Stack.Screen name="(tabs)" />
                   <Stack.Screen name="auth" />
+                  <Stack.Screen name="sign-up" />
                   <Stack.Screen name="listing/[id]" />
                   <Stack.Screen name="edit-listing/[id]" />
                   <Stack.Screen name="info-center" />
