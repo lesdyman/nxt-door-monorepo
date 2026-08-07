@@ -9,7 +9,7 @@ const BASE_URL = `${API_URL}/listings`
 
 interface GetListingsParams {
   side?: string
-  userId?: number
+  userId?: string
   limit?: number
   offset?: number
 }

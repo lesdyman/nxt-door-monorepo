@@ -1,7 +1,7 @@
 import User from '@constants/types/User'
 
 export type UserResponse = {
-  id: number
+  id: string
   name: string
   avatar: string
   onboarded: boolean

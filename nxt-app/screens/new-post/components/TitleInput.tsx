@@ -1,5 +1,6 @@
-import { ColorTokens, Input, Text, YStack } from 'tamagui'
+import { Text, YStack } from 'tamagui'
 
+import FormInput from '@components/FormInput'
 import useColors from '@constants/useColors'
 
 interface Props {
@@ -14,18 +15,13 @@ const TitleInput: React.FC<Props> = ({ value, onChangeText }) => {
       <Text fontSize={14} fontWeight="500" lineHeight={20} color={colors.textPrimary}>
         Title
       </Text>
-      <Input
+      <FormInput
         value={value}
         onChangeText={onChangeText}
-        bg={colors.surface}
-        color={colors.textPrimary}
-        borderColor={colors.border}
-        focusStyle={{ borderColor: colors.borderFocus }}
         placeholder="What are you offering or looking for?"
         fontSize={14}
         lineHeight={20}
         multiline={false}
-        placeholderTextColor={colors.textSecondary as ColorTokens}
       />
     </YStack>
   )

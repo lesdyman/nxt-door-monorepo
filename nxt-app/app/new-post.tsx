@@ -62,7 +62,6 @@ export default function NewPostModal() {
       images,
       side,
       category,
-      userId: user.id,
       latitude: coords.latitude,
       longitude: coords.longitude,
       address: place?.address ?? '',

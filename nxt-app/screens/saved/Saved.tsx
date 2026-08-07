@@ -26,7 +26,7 @@ const Saved = () => {
 
   const handleDelete = async (savedListingId: number) => {
     if (!user) return
-    await savedListingsService.removeListingFromSaved(savedListingId, user.id)
+    await savedListingsService.removeListingFromSaved(savedListingId)
     await refetch()
   }
 

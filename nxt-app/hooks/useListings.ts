@@ -5,7 +5,7 @@ import listingsService from '@services/listingsService'
 
 interface UseListingsParams {
   side?: string
-  userId?: number
+  userId?: string
   limit?: number
 }
 

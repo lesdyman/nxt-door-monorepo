@@ -17,7 +17,7 @@ export interface Listing {
   amountAvailable: string
   createdAt: Date
   updatedAt: Date
-  userId: number
+  userId: string
   location: {
     latitude: number
     longitude: number

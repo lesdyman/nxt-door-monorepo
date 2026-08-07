@@ -3,7 +3,7 @@ import { Listing } from './Listing'
 type SavedListing = {
   id: number
   listingId: number
-  userId: number
+  userId: string
   listing?: Listing
 }
 

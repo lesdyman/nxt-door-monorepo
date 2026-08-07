@@ -16,7 +16,7 @@ export type ListingResponse = {
   address: string
   createdAt: string
   updatedAt: string
-  userId: number
+  userId: string
 }
 
 const transformListingData = (data: ListingResponse): Listing => {

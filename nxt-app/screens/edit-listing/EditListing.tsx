@@ -4,19 +4,10 @@ import { LayoutAnimation, ScrollView, TouchableOpacity } from 'react-native'
 import { useRouter } from 'expo-router'
 import { ArrowLeft, Save, Trash2 } from 'lucide-react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import {
-  Button,
-  ColorTokens,
-  Input,
-  Separator,
-  Switch,
-  Text,
-  TextArea,
-  XStack,
-  YStack,
-} from 'tamagui'
+import { Button, ColorTokens, Separator, Switch, Text, TextArea, XStack, YStack } from 'tamagui'
 
 import BrandButton from '@components/BrandButton'
+import FormInput from '@components/FormInput'
 import Header from '@components/Header'
 import Loader from '@components/Loader'
 import { Listing } from '@constants/types/Listing'
@@ -106,17 +97,7 @@ const EditListing: React.FC<Props> = ({ listing }) => {
             <Text fontSize={14} fontWeight="500" lineHeight={20} color={colors.textPrimary}>
               Title
             </Text>
-            <Input
-              value={title}
-              onChangeText={setTitle}
-              bg={colors.surface}
-              color={colors.textPrimary}
-              borderColor={colors.border}
-              focusStyle={{ borderColor: colors.borderFocus }}
-              fontSize={14}
-              lineHeight={20}
-              placeholderTextColor={colors.textSecondary as ColorTokens}
-            />
+            <FormInput value={title} onChangeText={setTitle} fontSize={14} lineHeight={20} />
           </YStack>
 
           <XStack gap="$3">
@@ -124,17 +105,12 @@ const EditListing: React.FC<Props> = ({ listing }) => {
               <Text fontSize={14} fontWeight="500" lineHeight={20} color={colors.textPrimary}>
                 Price
               </Text>
-              <Input
+              <FormInput
                 value={price}
                 onChangeText={setPrice}
                 keyboardType="numeric"
-                bg={colors.surface}
-                color={colors.textPrimary}
-                borderColor={colors.border}
-                focusStyle={{ borderColor: colors.borderFocus }}
                 fontSize={14}
                 lineHeight={20}
-                placeholderTextColor={colors.textSecondary as ColorTokens}
               />
             </YStack>
             <YStack flex={1}>

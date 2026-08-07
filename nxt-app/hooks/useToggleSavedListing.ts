@@ -17,9 +17,9 @@ const useToggleSavedListing = (listingId: number) => {
     mutationFn: async () => {
       if (!user) return
       if (savedListing) {
-        await savedListingsService.removeListingFromSaved(savedListing.id, user.id)
+        await savedListingsService.removeListingFromSaved(savedListing.id)
       } else {
-        await savedListingsService.addListingToSaved(listingId, user.id)
+        await savedListingsService.addListingToSaved(listingId)
       }
     },
     onSuccess: () => {

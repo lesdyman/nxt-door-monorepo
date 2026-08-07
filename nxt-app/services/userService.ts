@@ -13,15 +13,15 @@ interface UpdateUserPayload {
 }
 
 const userService = {
-  getUser: async (userId: number): Promise<User> => {
+  getUser: async (userId: string): Promise<User> => {
     const response = await axios.get<UserResponse>(`${BASE_URL}/${userId}`)
     return transformUserData(response.data)
   },
-  updateUser: async (userId: number, payload: UpdateUserPayload): Promise<User> => {
+  updateUser: async (userId: string, payload: UpdateUserPayload): Promise<User> => {
     const response = await axios.patch<UserResponse>(`${BASE_URL}/${userId}`, payload)
     return transformUserData(response.data)
   },
-  deleteUser: async (userId: number) => {
+  deleteUser: async (userId: string) => {
     const response = await axios.delete(`${BASE_URL}/${userId}`)
     return response.data
   },

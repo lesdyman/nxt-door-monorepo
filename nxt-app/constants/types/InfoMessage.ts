@@ -12,7 +12,7 @@ type InfoMessage = BaseInfoMessage & {
 
 type MarketMessage = BaseInfoMessage & {
   type: 'market'
-  fromId: number
+  fromId: string
 } & (
     | { subtype: 'chat'; chatId: number }
     | { subtype: 'offer'; listingId: number }

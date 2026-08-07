@@ -2,8 +2,9 @@ import { useState } from 'react'
 import { TouchableOpacity } from 'react-native'
 
 import { CircleXIcon, Search } from 'lucide-react-native'
-import { Input, XStack, YStack } from 'tamagui'
+import { XStack, YStack } from 'tamagui'
 
+import FormInput from '@components/FormInput'
 import useColors from '@constants/useColors'
 
 const SearchField = () => {
@@ -19,20 +20,15 @@ const SearchField = () => {
           color={colors.textSecondary}
           style={{ position: 'absolute', left: 12, zIndex: 1 }}
         />
-        <Input
+        <FormInput
           flex={1}
           pl={40}
           pr={40}
           value={value}
           onChangeText={setValue}
-          placeholderTextColor="$gray9"
           placeholder="Search services & listings..."
           fontSize={14}
           height={48}
-          color={colors.textPrimary}
-          borderColor={colors.border}
-          focusStyle={{ borderColor: colors.borderFocus }}
-          style={{ backgroundColor: colors.surface }}
           cursorColor={colors.textPrimary}
         />
         {value.length > 0 && (

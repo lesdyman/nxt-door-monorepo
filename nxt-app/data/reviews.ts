@@ -3,8 +3,8 @@ import { Review } from '@constants/types/Review'
 const reviews: Review[] = [
   {
     id: 1,
-    reviewerId: 1002,
-    revieweeId: 1001,
+    reviewerId: '1002',
+    revieweeId: '1001',
     listingId: 1,
     rating: 5,
     comment:
@@ -14,8 +14,8 @@ const reviews: Review[] = [
   },
   {
     id: 2,
-    reviewerId: 1003,
-    revieweeId: 1001,
+    reviewerId: '1003',
+    revieweeId: '1001',
     listingId: 5,
     rating: 5,
     comment: 'Super friendly and punctual. Would deal with her again anytime.',
@@ -24,8 +24,8 @@ const reviews: Review[] = [
   },
   {
     id: 3,
-    reviewerId: 1001,
-    revieweeId: 1002,
+    reviewerId: '1001',
+    revieweeId: '1002',
     listingId: 2,
     rating: 4,
     comment: 'Cleaning service was solid, apartment looked great. Arrived a bit later than agreed.',
@@ -34,8 +34,8 @@ const reviews: Review[] = [
   },
   {
     id: 4,
-    reviewerId: 1005,
-    revieweeId: 1002,
+    reviewerId: '1005',
+    revieweeId: '1002',
     listingId: 2,
     rating: 5,
     comment: 'Very responsive and did an amazing deep clean before my guests arrived.',
@@ -44,8 +44,8 @@ const reviews: Review[] = [
   },
   {
     id: 5,
-    reviewerId: 1004,
-    revieweeId: 1003,
+    reviewerId: '1004',
+    revieweeId: '1003',
     listingId: 3,
     rating: 5,
     comment: 'Tennis racket was exactly as described, in great shape. Smooth handoff.',
@@ -54,8 +54,8 @@ const reviews: Review[] = [
   },
   {
     id: 6,
-    reviewerId: 1006,
-    revieweeId: 1003,
+    reviewerId: '1006',
+    revieweeId: '1003',
     listingId: 6,
     rating: 3,
     comment: 'Item was fine but took a while to reply to messages.',
@@ -64,8 +64,8 @@ const reviews: Review[] = [
   },
   {
     id: 7,
-    reviewerId: 1002,
-    revieweeId: 1004,
+    reviewerId: '1002',
+    revieweeId: '1004',
     listingId: 4,
     rating: 5,
     comment: 'Gave away the fridge for free and even helped carry it downstairs. Amazing neighbor!',
@@ -74,8 +74,8 @@ const reviews: Review[] = [
   },
   {
     id: 8,
-    reviewerId: 1001,
-    revieweeId: 1005,
+    reviewerId: '1001',
+    revieweeId: '1005',
     listingId: 9,
     rating: 4,
     comment: 'Bought the yoga mat set, good condition. Meetup location was easy to find.',
@@ -84,8 +84,8 @@ const reviews: Review[] = [
   },
   {
     id: 9,
-    reviewerId: 1004,
-    revieweeId: 1005,
+    reviewerId: '1004',
+    revieweeId: '1005',
     listingId: 10,
     rating: 5,
     comment: 'Great barter — traded books for my succulent cuttings. Really easy to deal with.',
@@ -94,8 +94,8 @@ const reviews: Review[] = [
   },
   {
     id: 10,
-    reviewerId: 1003,
-    revieweeId: 1006,
+    reviewerId: '1003',
+    revieweeId: '1006',
     listingId: 11,
     rating: 5,
     comment: 'Called for a plumber and she found one within the hour. Lifesaver.',
@@ -104,8 +104,8 @@ const reviews: Review[] = [
   },
   {
     id: 11,
-    reviewerId: 1005,
-    revieweeId: 1006,
+    reviewerId: '1005',
+    revieweeId: '1006',
     listingId: 13,
     rating: 4,
     comment: 'Order was handled well, though communication could be a bit quicker.',
