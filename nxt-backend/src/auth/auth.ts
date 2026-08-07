@@ -1,14 +1,18 @@
 import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
+import { expo } from '@better-auth/expo';
 import type { PrismaClient } from '../generated/prisma/client';
 
 export const BETTER_AUTH = Symbol('BETTER_AUTH');
 
-// Takes the app's single shared PrismaClient (see PrismaService)
 export function createAuth(prisma: PrismaClient) {
   return betterAuth({
     secret: process.env.BETTER_AUTH_SECRET,
     baseURL: process.env.BETTER_AUTH_URL,
+    // The Expo app's own URL scheme (app.json) — needed so an OAuth
+    // redirect back into the app (next_door://...) is accepted rather
+    // than rejected as a foreign origin.
+    trustedOrigins: ['next_door://'],
     database: prismaAdapter(prisma, {
       provider: 'postgresql',
     }),
@@ -28,6 +32,7 @@ export function createAuth(prisma: PrismaClient) {
         clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
       },
     },
+    plugins: [expo()],
   });
 }
 
