@@ -2,6 +2,8 @@ packages:
   - "nxt-app"
   - "nxt-backend"
   - "packages/*"
+overrides:
+  "@better-auth/core": "1.6.26"
 allowBuilds:
   '@prisma/engines': true
   prisma: true

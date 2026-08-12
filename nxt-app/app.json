@@ -33,7 +33,9 @@
     "plugins": [
       "expo-router",
       "expo-status-bar",
-      "expo-apple-authentication"
+      "expo-apple-authentication",
+      "expo-secure-store",
+      "expo-web-browser"
     ],
     "extra": {
       "router": {},

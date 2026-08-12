@@ -19,7 +19,13 @@ async function bootstrap() {
   // shares Nest's own PrismaService instance instead of opening a second
   // Neon connection pool.
   const auth = app.get<Auth>(BETTER_AUTH);
-  app.use('/api/auth/*splat', toNodeHandler(auth));
+  // Mounted as a plain prefix, not `/api/auth/*splat` — Express 5's wildcard
+  // capture sets `req.baseUrl` to the *entire* matched path (not just the
+  // mount prefix) and `req.url` to just `/` + the query string, which
+  // breaks better-call's `constructRelativeUrl` (it expects
+  // `baseUrl + url === originalUrl`) and silently drops the query string
+  // from every request, e.g. `?authorizationURL=...` becoming `undefined`.
+  app.use('/api/auth', toNodeHandler(auth));
 
   app.use(json());
   app.use(urlencoded({ extended: true }));

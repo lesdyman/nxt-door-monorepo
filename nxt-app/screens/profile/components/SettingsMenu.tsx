@@ -3,6 +3,7 @@ import { ChevronRight, LogOut } from 'lucide-react-native'
 import { ListItem, Separator, Text, YStack } from 'tamagui'
 
 import useColors from '@constants/useColors'
+import authService from '@services/authService'
 
 import ITEMS from '../utils/SettingsItems'
 
@@ -45,7 +46,7 @@ export const SettingsMenu = () => {
         px="$4"
         title={
           <Text color={colors.notificationDot} fontSize="$4">
-            Sign Out
+            Log Out
           </Text>
         }
         subTitle={
@@ -54,7 +55,9 @@ export const SettingsMenu = () => {
           </Text>
         }
         icon={<LogOut size={20} color={colors.notificationDot} />}
-        onPress={() => {}}
+        onPress={async () => {
+          await authService.signOut()
+        }}
       />
     </YStack>
   )

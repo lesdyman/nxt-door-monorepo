@@ -30,6 +30,8 @@ function AuthGate({ children }: { children: React.ReactNode }) {
     const inAuthScreen = segments[0] === 'auth' || segments[0] === 'sign-up'
     if (!userId && !inAuthScreen) {
       router.replace('/auth')
+    } else if (userId && inAuthScreen) {
+      router.replace('/')
     }
   }, [userId, isPending, segments, router])
 
