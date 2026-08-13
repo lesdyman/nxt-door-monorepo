@@ -3,7 +3,7 @@ import User from '@constants/types/User'
 export type UserResponse = {
   id: string
   name: string
-  avatar: string
+  avatar: string | null
   onboarded: boolean
   rating: number
   reviewsCount: number

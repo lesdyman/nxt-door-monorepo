@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from '../prisma/prisma.service';
@@ -8,11 +12,19 @@ export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
   create(createUserDto: CreateUserDto, id: string) {
-    return this.prisma.user.create({ data: { ...createUserDto, id } });
+    // Reaching this endpoint means onboarding just completed — there's no
+    // separate "finish onboarding" step, so this is where `onboarded` flips.
+    return this.prisma.user.create({
+      data: { ...createUserDto, id, onboarded: true },
+    });
   }
 
-  findOne(id: string) {
-    return this.prisma.user.findUnique({ where: { id } });
+  async findOne(id: string) {
+    const user = await this.prisma.user.findUnique({ where: { id } });
+    if (!user) {
+      throw new NotFoundException(`User ${id} not found`);
+    }
+    return user;
   }
 
   update(id: string, updateUserDto: UpdateUserDto, requesterId: string) {

@@ -1,8 +1,9 @@
 import { TouchableOpacity } from 'react-native'
 
 import { Star } from 'lucide-react-native'
-import { Image, Separator, Text, XStack, YStack } from 'tamagui'
+import { Separator, Text, XStack, YStack } from 'tamagui'
 
+import UserAvatar from '@components/UserAvatar'
 import { Review } from '@constants/types/Review'
 import useColors from '@constants/useColors'
 import dateFormatter from '@utils/dateFormateter'
@@ -10,7 +11,7 @@ import nameReducer from '@utils/nameReducer'
 
 interface Props {
   review: Review
-  reviewer: { name: string; avatar: string }
+  reviewer: { name: string; avatar: string | null }
   listingTitle: string
   onPressListing?: () => void
 }
@@ -28,7 +29,7 @@ const ReviewCard: React.FC<Props> = ({ review, reviewer, listingTitle, onPressLi
     >
       <XStack justify="space-between" items="center">
         <XStack gap="$2" items="center">
-          <Image height={32} width={32} borderRadius={16} src={reviewer.avatar} />
+          <UserAvatar name={reviewer.name} avatarUrl={reviewer.avatar} size={32} />
           <Text color={colors.textPrimary} fontSize={15} fontWeight="600">
             {nameReducer(reviewer.name)}
           </Text>

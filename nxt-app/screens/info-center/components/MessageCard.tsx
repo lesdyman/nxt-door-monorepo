@@ -1,6 +1,7 @@
 import { BadgeInfo, MessageSquareText } from 'lucide-react-native'
-import { Image, Text, View, XStack, YStack } from 'tamagui'
+import { Text, View, XStack, YStack } from 'tamagui'
 
+import UserAvatar from '@components/UserAvatar'
 import { infoMessage } from '@constants/types/InfoMessage'
 import useColors from '@constants/useColors'
 import useUser from '@hooks/useUser'
@@ -33,7 +34,7 @@ const MessageCard: React.FC<Props> = ({ message }) => {
           <BadgeInfo color="#9FCAFF" size={32} />
         </View>
       ) : (
-        <Image height={48} width={48} borderRadius={24} src={sender?.avatar} />
+        <UserAvatar name={sender?.name ?? ''} avatarUrl={sender?.avatar} size={48} />
       )}
       <YStack flex={1} gap="$2" minW={0}>
         <XStack justify="space-between" width="100%" items="center">

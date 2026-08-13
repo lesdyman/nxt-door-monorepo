@@ -18,7 +18,7 @@ SplashScreen.preventAutoHideAsync()
 const queryClient = new QueryClient()
 
 function AuthGate({ children }: { children: React.ReactNode }) {
-  const { userId, isPending } = useAuth()
+  const { userId, isPending, onboarded } = useAuth()
   const segments = useSegments()
   const router = useRouter()
 
@@ -28,12 +28,16 @@ function AuthGate({ children }: { children: React.ReactNode }) {
     if (isPending) return
 
     const inAuthScreen = segments[0] === 'auth' || segments[0] === 'sign-up'
+    const inOnboarding = segments[0] === 'onboarding'
+
     if (!userId && !inAuthScreen) {
       router.replace('/auth')
-    } else if (userId && inAuthScreen) {
+    } else if (userId && !onboarded && !inOnboarding) {
+      router.replace('/onboarding/place')
+    } else if (userId && onboarded && (inAuthScreen || inOnboarding)) {
       router.replace('/')
     }
-  }, [userId, isPending, segments, router])
+  }, [userId, isPending, onboarded, segments, router])
 
   return children
 }
@@ -44,8 +48,6 @@ export default function RootLayout() {
   const [loaded] = useFonts({
     Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
     InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
-    // Required by Google's "Sign in with Google" button branding guidelines
-    // (button font must be Google Sans Medium).
     GoogleSans_500Medium,
   })
 
@@ -68,6 +70,7 @@ export default function RootLayout() {
                   <Stack.Screen name="(tabs)" />
                   <Stack.Screen name="auth" />
                   <Stack.Screen name="sign-up" />
+                  <Stack.Screen name="onboarding" />
                   <Stack.Screen name="listing/[id]" />
                   <Stack.Screen name="edit-listing/[id]" />
                   <Stack.Screen name="info-center" />

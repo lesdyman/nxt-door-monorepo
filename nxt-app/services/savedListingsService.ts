@@ -1,8 +1,8 @@
-import axios from 'axios'
-
 import API_URL from '@constants/apiUrl'
 import SavedListing from '@constants/types/SavedListing'
 import transformListingData, { ListingResponse } from '@utils/transformListingData'
+
+import apiClient from './apiClient'
 
 type SavedListingResponse = {
   id: number
@@ -15,7 +15,7 @@ type SavedListingResponse = {
 // own user (see nxt-backend/API.md's saved-listings section).
 const savedListingsService = {
   getAllSavedListings: async (): Promise<SavedListing[]> => {
-    const response = await axios.get(`${API_URL}/saved-listings`)
+    const response = await apiClient.get(`${API_URL}/saved-listings`)
     return response.data.map((savedListing: SavedListingResponse) => ({
       id: savedListing.id,
       userId: savedListing.userId,
@@ -25,14 +25,14 @@ const savedListingsService = {
   },
 
   addListingToSaved: async (listingId: number) => {
-    const response = await axios.post(`${API_URL}/saved-listings`, {
+    const response = await apiClient.post(`${API_URL}/saved-listings`, {
       listingId,
     })
     return response.data
   },
 
   removeListingFromSaved: async (savedListingId: number) => {
-    const response = await axios.delete(`${API_URL}/saved-listings/${savedListingId}`)
+    const response = await apiClient.delete(`${API_URL}/saved-listings/${savedListingId}`)
     return response.data
   },
 }

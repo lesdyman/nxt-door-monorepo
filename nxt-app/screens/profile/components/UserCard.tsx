@@ -1,11 +1,12 @@
-import { Image, Text, View, XStack, YStack } from 'tamagui'
+import { Text, XStack, YStack } from 'tamagui'
 
+import UserAvatar from '@components/UserAvatar'
 import useColors from '@constants/useColors'
 
 interface Props {
   userCardData: {
     name?: string
-    avatar?: string
+    avatar?: string | null
     placeName?: string
     rating?: number
     reviewsCount?: number
@@ -25,31 +26,13 @@ const UserCard: React.FC<Props> = ({ userCardData }) => {
       rounded={12}
       borderColor={colors.border}
     >
-      {userCardData.avatar === '' || !userCardData.avatar ? (
-        <View
-          height={96}
-          width={96}
-          items="center"
-          justify="center"
-          bg={colors.surfaceElevated}
-          rounded={50}
-          borderWidth={2}
-          borderColor={colors.border}
-        >
-          <Text fontSize={24} fontWeight={600} color={colors.brand}>
-            ND
-          </Text>
-        </View>
-      ) : (
-        <Image
-          height={96}
-          width={96}
-          borderRadius={50}
-          borderWidth={2}
-          borderColor={colors.border}
-          src={userCardData.avatar}
-        />
-      )}
+      <UserAvatar
+        name={userCardData.name || 'N/A'}
+        avatarUrl={userCardData.avatar}
+        size={96}
+        borderWidth={2}
+        borderColor={colors.border}
+      />
 
       <Text
         fontSize={24}
