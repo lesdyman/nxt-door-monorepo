@@ -21,9 +21,18 @@ const ConfirmProfile = () => {
 
   const [name, setName] = useState(session?.user?.name ?? '')
   const [email, setEmail] = useState(session?.user?.email ?? '')
+  const [showErrors, setShowErrors] = useState(false)
+
+  const nameError = name.trim().length === 0 ? 'Display name is required' : null
+  const emailError = email.trim().length === 0 ? 'Email is required' : null
+  const isValid = !nameError && !emailError
 
   const handleNext = () => {
-    setProfile(name, email)
+    if (!isValid) {
+      setShowErrors(true)
+      return
+    }
+    setProfile(name.trim(), email.trim())
     router.push('/onboarding/success')
   }
 
@@ -50,6 +59,11 @@ const ConfirmProfile = () => {
                   Is this your correct display name?*
                 </Text>
                 <FormInput placeholder="Display name" value={name} onChangeText={setName} />
+                {showErrors && nameError && (
+                  <Text ml="$1" fontSize={12} color={colors.notificationDot}>
+                    {nameError}
+                  </Text>
+                )}
               </YStack>
               <YStack gap="$2">
                 <Text ml="$1" fontSize={14} fontWeight="500" lineHeight={20} color={colors.amber}>
@@ -62,12 +76,17 @@ const ConfirmProfile = () => {
                   autoCapitalize="none"
                   keyboardType="email-address"
                 />
+                {showErrors && emailError && (
+                  <Text ml="$1" fontSize={12} color={colors.notificationDot}>
+                    {emailError}
+                  </Text>
+                )}
               </YStack>
             </YStack>
           </YStack>
         </YStack>
 
-        <BrandButton onPress={handleNext}>
+        <BrandButton onPress={handleNext} disabled={!isValid} opacity={isValid ? 1 : 0.6}>
           <Text color={colors.white} fontSize={16}>
             Confirm & Continue
           </Text>

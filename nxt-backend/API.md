@@ -38,6 +38,8 @@ Better Auth doesn't send emails itself — `emailAndPassword.sendResetPassword` 
 
 A freshly signed-up account has **no** `User` profile row yet — routes that read `req.user` as a profile (none currently) would need to handle that; currently only `POST /users` (onboarding) assumes the profile doesn't exist yet.
 
+**Known gap — onboarding's name/email edits don't sync back to `AuthUser`.** The onboarding flow (`nxt-app/screens/onboarding/ConfirmProfile.tsx`) pre-fills `name`/`email` from the session's `AuthUser` and lets the user edit them before confirming. Only `name` is actually sent to `POST /users`, and it only updates `User.name` — `AuthUser.name` (the login identity's name) is never touched, so the two can drift. `email` isn't sent anywhere at all — `User` has no `email` column, and there's no call to sync it back to `AuthUser.email` either, so editing email on that screen currently has no effect. To fix: call Better Auth's user-update endpoint (e.g. `authClient.updateUser`) alongside `POST /users` when these fields change — note email changes typically need verification, which is blocked on the same missing transactional-email-provider gap as password reset above.
+
 ---
 
 ## External services & where to find credentials
