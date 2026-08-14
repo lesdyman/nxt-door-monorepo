@@ -9,7 +9,9 @@ import useColors from '@constants/useColors'
 import { useSearch } from '@contexts/SearchContext'
 import { useTabBar } from '@contexts/TabBarContext'
 import useCurrentUser from '@hooks/useCurrentUser'
+import NoPostsYet from '@screens/home/components/NoPostsYet'
 import HomeHeader from '@screens/home/HomeHeader'
+import useLatestPosts from '@screens/home/hooks/useLatestPosts'
 import InfoBlock from '@screens/home/InfoBlock'
 import LatestOffers from '@screens/home/LatestOffers'
 import NeighborsAreLooking from '@screens/home/NeighborsAreLooking'
@@ -21,6 +23,8 @@ export default function HomeScreen() {
   const queryClient = useQueryClient()
 
   const [refreshing, setRefreshing] = useState(false)
+
+  const { offers, requests, isOffersLoading, isRequestsLoading } = useLatestPosts()
 
   const handleRefresh = async () => {
     setRefreshing(true)
@@ -51,8 +55,14 @@ export default function HomeScreen() {
       >
         <YStack flex={1} gap="$4" pb="$4">
           <InfoBlock place={place} isLoading={isLoading} />
-          <LatestOffers />
-          <NeighborsAreLooking />
+          {offers.length === 0 && requests.length === 0 ? (
+            <NoPostsYet placeName={place?.name || 'N/A'} />
+          ) : (
+            <>
+              <LatestOffers offers={offers} isLoading={isOffersLoading} />
+              <NeighborsAreLooking requests={requests} isLoading={isRequestsLoading} />
+            </>
+          )}
         </YStack>
       </ScrollView>
     </SafeAreaView>
