@@ -13,7 +13,7 @@ const NoPostsYet: React.FC<Props> = ({ placeName = 'N/A' }) => {
   const colors = useColors()
   const router = useRouter()
   return (
-    <YStack gap="$4" px="$4" mb="$6">
+    <YStack gap="$6" px="$4" mb="$6">
       <GlowIcon icon={ShoppingBag} size={180} />
       <Text fontSize={24} lineHeight={32} text="center" color={colors.textPrimary}>
         Be the first in
