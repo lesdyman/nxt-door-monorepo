@@ -16,8 +16,6 @@ export class UsersService {
   ) {}
 
   create(createUserDto: CreateUserDto, id: string) {
-    // Reaching this endpoint means onboarding just completed — there's no
-    // separate "finish onboarding" step, so this is where `onboarded` flips.
     return this.prisma.user.create({
       data: { ...createUserDto, id, onboarded: true },
     });
@@ -56,8 +54,6 @@ export class UsersService {
       include: { listings: true },
     });
 
-    // Cascading the DB delete doesn't touch R2 — clean up the avatar and
-    // any listing images ourselves before the rows disappear.
     const filesToDelete = [
       ...(user?.avatar ? [user.avatar] : []),
       ...(user?.listings.flatMap((listing) => listing.images) ?? []),
@@ -66,8 +62,8 @@ export class UsersService {
       await this.uploads.deleteFiles(filesToDelete);
     }
 
-    // Deleting AuthUser (not User) so the cascade fires the right direction:
-    // AuthUser -> User -> Listing/SavedListing all get cleaned up together.
-    return this.prisma.authUser.delete({ where: { id } });
+    await this.prisma.authUser.delete({ where: { id } });
+
+    return { id };
   }
 }

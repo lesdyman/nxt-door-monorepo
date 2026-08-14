@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { isAxiosError } from 'axios'
 
 import { authClient } from '@services/authClient'
 import userService from '@services/userService'
@@ -11,18 +12,23 @@ export const useAuth = () => {
   const { data, isPending } = authClient.useSession()
   const userId = data?.user?.id ?? null
 
-  // No domain `User` row exists until onboarding's `POST /users` runs, so a
-  // 404 here just means "not onboarded yet" — not an error to surface.
-  const { data: user, isPending: isUserPending } = useQuery({
+  const {
+    data: user,
+    isPending: isUserPending,
+    error,
+  } = useQuery({
     queryKey: ['currentUser', userId],
     queryFn: () => userService.getUser(userId as string),
     enabled: !!userId,
     retry: false,
   })
 
+  const isNotFound = isAxiosError(error) && error.response?.status === 404
+  const isUnknownError = !!error && !isNotFound
+
   return {
     userId,
-    isPending: isPending || (!!userId && isUserPending),
+    isPending: isPending || (!!userId && isUserPending) || isUnknownError,
     onboarded: user?.onboarded ?? false,
   }
 }

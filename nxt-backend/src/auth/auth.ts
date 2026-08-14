@@ -9,13 +9,6 @@ export function createAuth(prisma: PrismaClient) {
   return betterAuth({
     secret: process.env.BETTER_AUTH_SECRET,
     baseURL: process.env.BETTER_AUTH_URL,
-    // The Expo app's own URL scheme (app.json) — needed so an OAuth
-    // redirect back into the app (next_door://...) is accepted rather
-    // than rejected as a foreign origin. Must be a wildcard: the scheme
-    // contains an underscore, which is not a valid URL scheme character,
-    // so `new URL('next_door://...')` throws and the exact-match branch
-    // of matchesOriginPattern always fails — only the wildcard branch
-    // falls back to raw string comparison instead of URL parsing.
     trustedOrigins: ['next_door://*'],
     database: prismaAdapter(prisma, {
       provider: 'postgresql',
