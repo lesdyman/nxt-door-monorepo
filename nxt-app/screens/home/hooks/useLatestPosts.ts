@@ -9,6 +9,7 @@ const useLatestPosts = () => {
     requests: requests.data ?? [],
     isOffersLoading: offers.isLoading,
     isRequestsLoading: requests.isLoading,
+    isError: offers.isError || requests.isError,
   }
 }
 

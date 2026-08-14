@@ -5,6 +5,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { YStack } from 'tamagui'
 
+import ErrorState from '@components/ErrorState/ErrorState'
 import useColors from '@constants/useColors'
 import { useSearch } from '@contexts/SearchContext'
 import { useTabBar } from '@contexts/TabBarContext'
@@ -24,7 +25,7 @@ export default function HomeScreen() {
 
   const [refreshing, setRefreshing] = useState(false)
 
-  const { offers, requests, isOffersLoading, isRequestsLoading } = useLatestPosts()
+  const { offers, requests, isOffersLoading, isRequestsLoading, isError } = useLatestPosts()
 
   const handleRefresh = async () => {
     setRefreshing(true)
@@ -55,7 +56,9 @@ export default function HomeScreen() {
       >
         <YStack flex={1} gap="$4" pb="$4">
           <InfoBlock place={place} isLoading={isLoading} />
-          {offers.length === 0 && requests.length === 0 ? (
+          {isError ? (
+            <ErrorState />
+          ) : offers.length === 0 && requests.length === 0 ? (
             <NoPostsYet placeName={place?.name || 'N/A'} />
           ) : (
             <>
