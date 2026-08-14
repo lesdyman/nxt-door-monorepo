@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { Link } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Svg, { Defs, RadialGradient, Rect, Stop } from 'react-native-svg'
@@ -6,12 +8,27 @@ import { Text, View, XStack, YStack } from 'tamagui'
 import AppleLoginButton from '@components/AppleLoginButton'
 import GoogleLoginButton from '@components/GoogleLoginButton'
 import useColors from '@constants/useColors'
+import authService from '@services/authService'
 
 import EmailLogin from './components/EmailLogin'
 import LogoBlock from './components/LogoBlock'
 
 export default function Auth() {
   const colors = useColors()
+  const [googleError, setGoogleError] = useState<string | null>(null)
+  const [isGoogleSubmitting, setIsGoogleSubmitting] = useState(false)
+
+  const handleLoginWithGoogle = async () => {
+    setGoogleError(null)
+    setIsGoogleSubmitting(true)
+    try {
+      await authService.continueWithGoogle()
+    } catch {
+      setGoogleError('Could not sign in with Google. Please try again.')
+    } finally {
+      setIsGoogleSubmitting(false)
+    }
+  }
 
   return (
     <View position="relative" bg={colors.background} flex={1}>
@@ -41,7 +58,12 @@ export default function Auth() {
         </XStack>
         <YStack gap="$6">
           <YStack gap="$3">
-            <GoogleLoginButton />
+            {googleError && (
+              <Text fontSize={12} color={colors.notificationDot}>
+                {googleError}
+              </Text>
+            )}
+            <GoogleLoginButton onPress={handleLoginWithGoogle} disabled={isGoogleSubmitting} />
             <AppleLoginButton />
           </YStack>
           <XStack items="center" gap="$2" justify="center">

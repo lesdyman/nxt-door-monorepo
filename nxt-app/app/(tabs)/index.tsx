@@ -5,11 +5,14 @@ import { useQueryClient } from '@tanstack/react-query'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { YStack } from 'tamagui'
 
+import ErrorState from '@components/ErrorState/ErrorState'
 import useColors from '@constants/useColors'
 import { useSearch } from '@contexts/SearchContext'
 import { useTabBar } from '@contexts/TabBarContext'
 import useCurrentUser from '@hooks/useCurrentUser'
+import NoPostsYet from '@screens/home/components/NoPostsYet'
 import HomeHeader from '@screens/home/HomeHeader'
+import useLatestPosts from '@screens/home/hooks/useLatestPosts'
 import InfoBlock from '@screens/home/InfoBlock'
 import LatestOffers from '@screens/home/LatestOffers'
 import NeighborsAreLooking from '@screens/home/NeighborsAreLooking'
@@ -21,6 +24,8 @@ export default function HomeScreen() {
   const queryClient = useQueryClient()
 
   const [refreshing, setRefreshing] = useState(false)
+
+  const { offers, requests, isOffersLoading, isRequestsLoading, isError } = useLatestPosts()
 
   const handleRefresh = async () => {
     setRefreshing(true)
@@ -51,8 +56,18 @@ export default function HomeScreen() {
       >
         <YStack flex={1} gap="$4" pb="$4">
           <InfoBlock place={place} isLoading={isLoading} />
-          <LatestOffers />
-          <NeighborsAreLooking />
+          {isError ? (
+            <ErrorState />
+          ) : offers.length === 0 && requests.length === 0 ? (
+            <NoPostsYet placeName={place?.name || 'N/A'} />
+          ) : (
+            <>
+              {offers.length > 0 && <LatestOffers offers={offers} isLoading={isOffersLoading} />}
+              {requests.length > 0 && (
+                <NeighborsAreLooking requests={requests} isLoading={isRequestsLoading} />
+              )}
+            </>
+          )}
         </YStack>
       </ScrollView>
     </SafeAreaView>

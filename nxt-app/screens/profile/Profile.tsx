@@ -5,8 +5,8 @@ import useColors from '@constants/useColors'
 import useCurrentUser from '@hooks/useCurrentUser'
 
 import ProfileHeader from './components/ProfileHeader'
-import { SettingsMenu } from './components/SettingsMenu'
 import UserCard from './components/UserCard'
+import { UserMenu } from './components/UserMenu'
 
 const Profile = () => {
   const colors = useColors()
@@ -25,7 +25,7 @@ const Profile = () => {
       <ScrollView bg={colors.background}>
         <YStack p="$4" gap="$4">
           <UserCard userCardData={userCardData} />
-          <SettingsMenu />
+          <UserMenu />
         </YStack>
       </ScrollView>
     </SafeAreaView>

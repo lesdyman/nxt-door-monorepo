@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
+import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BETTER_AUTH, createAuth } from './auth/auth';
 import { AuthGuard } from './auth/auth.guard';
+import { VerificationCleanupService } from './auth/verification-cleanup.service';
 import { ListingsModule } from './listings/listings.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { PrismaService } from './prisma/prisma.service';
@@ -14,6 +16,7 @@ import { SavedListingsModule } from './saved-listings/saved-listings.module';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     PrismaModule,
     ListingsModule,
     UploadsModule,
@@ -30,6 +33,7 @@ import { SavedListingsModule } from './saved-listings/saved-listings.module';
       useFactory: (prisma: PrismaService) => createAuth(prisma),
       inject: [PrismaService],
     },
+    VerificationCleanupService,
   ],
   exports: [BETTER_AUTH],
 })

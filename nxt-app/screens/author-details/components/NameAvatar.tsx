@@ -1,13 +1,14 @@
 import { MapPin } from 'lucide-react-native'
-import { Image, Text, View, XStack, YStack } from 'tamagui'
+import { Text, XStack, YStack } from 'tamagui'
 
+import UserAvatar from '@components/UserAvatar'
 import useColors from '@constants/useColors'
 import usePlace from '@hooks/usePlace'
 
 interface Props {
   user: {
     name: string
-    avatar: string
+    avatar: string | null
     placeId: string
   }
 }
@@ -18,32 +19,13 @@ const NameAvatar: React.FC<Props> = ({ user }) => {
   const userAddress = place
   return (
     <YStack gap="$3" items="center">
-      {user.avatar ? (
-        <View borderWidth={2} borderColor={colors.avatarBorder} rounded={48} p={2}>
-          <Image height={96} width={96} borderRadius={48} src={user.avatar} />
-        </View>
-      ) : (
-        <View
-          borderWidth={2}
-          height={96}
-          width={96}
-          items="center"
-          justify="center"
-          borderColor={colors.avatarBorder}
-          rounded={48}
-          p={2}
-        >
-          <Text
-            color={colors.iconSubtle}
-            fontSize={22}
-            fontWeight="700"
-            lineHeight={28}
-            rounded={48}
-          >
-            DM
-          </Text>
-        </View>
-      )}
+      <UserAvatar
+        name={user.name}
+        avatarUrl={user.avatar}
+        size={96}
+        borderWidth={2}
+        borderColor={colors.avatarBorder}
+      />
 
       <YStack gap="$1" items="center">
         <Text

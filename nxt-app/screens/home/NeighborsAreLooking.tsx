@@ -1,23 +1,27 @@
 import { Text, YStack } from 'tamagui'
 
 import Loader from '@components/Loader'
+import { Listing } from '@constants/types/Listing'
 import useColors from '@constants/useColors'
-import useListings from '@hooks/useListings'
 
 import NLCard from './NLCard'
 
 const LIST_HEIGHT = 220
 
-const NeighborsAreLooking = () => {
+interface Props {
+  requests: Listing[]
+  isLoading: boolean
+}
+
+const NeighborsAreLooking: React.FC<Props> = ({ requests, isLoading }) => {
   const colors = useColors()
-  const requests = useListings({ side: 'order', limit: 3 })
 
   return (
     <YStack gap="$3" px="$4">
       <Text color={colors.textPrimary} fontSize={16} fontWeight="500" lineHeight={24}>
         Neighbors are looking for
       </Text>
-      {requests.isLoading ? (
+      {isLoading ? (
         <YStack
           height={LIST_HEIGHT}
           style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}
@@ -26,7 +30,7 @@ const NeighborsAreLooking = () => {
         </YStack>
       ) : (
         <YStack gap="$2">
-          {requests.data?.map((request) => (
+          {requests.map((request) => (
             <NLCard key={request.id} request={request} />
           ))}
         </YStack>

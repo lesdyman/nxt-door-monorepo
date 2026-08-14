@@ -4,9 +4,10 @@ import useColors from '@constants/useColors'
 
 interface Props {
   children: React.ReactNode
+  showBorder?: boolean
 }
 
-const Header: React.FC<Props> = ({ children }) => {
+const Header: React.FC<Props> = ({ children, showBorder = true }) => {
   const colors = useColors()
   return (
     <XStack
@@ -14,7 +15,7 @@ const Header: React.FC<Props> = ({ children }) => {
       height={64}
       items="center"
       justify="space-between"
-      borderBottomWidth={1}
+      borderBottomWidth={showBorder ? 1 : 0}
       borderBottomColor={colors.borderStrong}
     >
       {children}

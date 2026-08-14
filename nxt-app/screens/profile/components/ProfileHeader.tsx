@@ -1,5 +1,6 @@
 import { useRouter } from 'expo-router'
-import { Text } from 'tamagui'
+import { Settings } from 'lucide-react-native'
+import { Text, XStack } from 'tamagui'
 
 import BellIcon from '@components/BellIcon'
 import Header from '@components/Header'
@@ -15,7 +16,10 @@ const ProfileHeader = () => {
       <Text fontSize={20} fontWeight="600" lineHeight={28} color={colors.textPrimary}>
         Profile
       </Text>
-      <HeaderIconButton icon={<BellIcon />} onPress={() => router.push('/info-center')} />
+      <XStack gap="$2" items="center">
+        <HeaderIconButton icon={<BellIcon />} onPress={() => router.push('/info-center')} />
+        <HeaderIconButton icon={<Settings />} onPress={() => router.push('/settings')} />
+      </XStack>
     </Header>
   )
 }

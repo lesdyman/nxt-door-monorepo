@@ -5,8 +5,8 @@ import { ArrowRight } from 'lucide-react-native'
 import { Text, useWindowDimensions, XStack, YStack } from 'tamagui'
 
 import Loader from '@components/Loader'
+import { Listing } from '@constants/types/Listing'
 import useColors from '@constants/useColors'
-import useListings from '@hooks/useListings'
 
 import OfferCard from './OfferCard'
 
@@ -14,12 +14,15 @@ const CARD_GAP = 12
 const H_PADDING = 16
 const CARD_HEIGHT = 460
 
-const LatestOffers = () => {
+interface Props {
+  offers: Listing[]
+  isLoading: boolean
+}
+
+const LatestOffers: React.FC<Props> = ({ offers, isLoading }) => {
   const colors = useColors()
   const { width } = useWindowDimensions()
   const cardWidth = width
-
-  const offers = useListings({ side: 'offer', limit: 5 })
 
   return (
     <YStack gap="$3">
@@ -37,7 +40,7 @@ const LatestOffers = () => {
         </Link>
       </XStack>
 
-      {offers.isLoading ? (
+      {isLoading ? (
         <YStack
           height={CARD_HEIGHT}
           style={{ width: '100%', alignItems: 'center', justifyContent: 'center' }}
@@ -52,7 +55,7 @@ const LatestOffers = () => {
           decelerationRate="fast"
           contentContainerStyle={{ paddingHorizontal: H_PADDING, gap: CARD_GAP }}
         >
-          {offers.data?.map((item) => (
+          {offers.map((item) => (
             <OfferCard key={item.id} item={item} cardWidth={cardWidth} />
           ))}
         </ScrollView>

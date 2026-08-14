@@ -1,6 +1,7 @@
 import { Link } from 'expo-router'
-import { Image, Text, XStack, YStack } from 'tamagui'
+import { Text, XStack, YStack } from 'tamagui'
 
+import UserAvatar from '@components/UserAvatar'
 import useColors from '@constants/useColors'
 import useUser from '@hooks/useUser'
 
@@ -23,7 +24,7 @@ const AuthorBlock: React.FC<Props> = ({ postAuthorId }) => {
       gap="$3"
     >
       <XStack gap="$3" items="center" flex={1}>
-        <Image height={40} width={40} borderRadius={20} src={user?.avatar || ''} />
+        <UserAvatar name={user?.name ?? ''} avatarUrl={user?.avatar} size={40} />
         <YStack>
           <Text color={colors.pearl} fontSize={14} fontWeight="500" lineHeight={20}>
             {user?.name}

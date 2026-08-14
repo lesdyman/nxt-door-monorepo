@@ -9,10 +9,7 @@ export function createAuth(prisma: PrismaClient) {
   return betterAuth({
     secret: process.env.BETTER_AUTH_SECRET,
     baseURL: process.env.BETTER_AUTH_URL,
-    // The Expo app's own URL scheme (app.json) — needed so an OAuth
-    // redirect back into the app (next_door://...) is accepted rather
-    // than rejected as a foreign origin.
-    trustedOrigins: ['next_door://'],
+    trustedOrigins: ['next_door://*'],
     database: prismaAdapter(prisma, {
       provider: 'postgresql',
     }),

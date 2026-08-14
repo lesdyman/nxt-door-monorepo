@@ -5,6 +5,8 @@ import Loader from '@components/Loader'
 import Place from '@constants/Place'
 import useColors from '@constants/useColors'
 
+import PhoneRow from './components/PhoneRow'
+
 interface Props {
   place?: Place
   isLoading?: boolean
@@ -12,6 +14,7 @@ interface Props {
 
 const InfoBlock: React.FC<Props> = ({ place, isLoading }) => {
   const colors = useColors()
+
   return (
     <YStack
       gap="$3"
@@ -58,24 +61,21 @@ const InfoBlock: React.FC<Props> = ({ place, isLoading }) => {
       </YStack>
 
       <YStack gap="$2">
-        <XStack items="center" gap="$2">
-          <Phone width={15} height={13} color={colors.iconSubtle} />
-          <Text fontSize={14} lineHeight={20} color={colors.textMuted}>
-            Management Company: {place?.mgmtPhone || 'N/A'}
-          </Text>
-        </XStack>
-        <XStack items="center" gap="$2">
-          <ShieldAlert width={15} height={13} color={colors.iconSubtle} />
-          <Text fontSize={14} lineHeight={20} color={colors.textMuted}>
-            Security: {place?.securityPhone || 'N/A'}
-          </Text>
-        </XStack>
-        <XStack items="center" gap="$2">
-          <Wrench width={15} height={13} color={colors.iconSubtle} />
-          <Text fontSize={14} lineHeight={20} color={colors.textMuted}>
-            Elevator Emergency: {place?.elevatorEmergency || 'N/A'}
-          </Text>
-        </XStack>
+        <PhoneRow
+          icon={<Phone width={15} height={13} color={colors.iconSubtle} />}
+          label="Management Company"
+          phone={place?.mgmtPhone}
+        />
+        <PhoneRow
+          icon={<ShieldAlert width={15} height={13} color={colors.iconSubtle} />}
+          label="Security"
+          phone={place?.securityPhone}
+        />
+        <PhoneRow
+          icon={<Wrench width={15} height={13} color={colors.iconSubtle} />}
+          label="Elevator Emergency"
+          phone={place?.elevatorEmergency}
+        />
       </YStack>
     </YStack>
   )

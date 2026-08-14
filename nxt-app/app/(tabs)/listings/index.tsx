@@ -1,14 +1,17 @@
-import { ActivityIndicator, FlatList, RefreshControl } from 'react-native'
+import { ActivityIndicator, FlatList, RefreshControl, ScrollView } from 'react-native'
 
 import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
+import { Store } from 'lucide-react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { YStack } from 'tamagui'
 
+import ErrorState from '@components/ErrorState/ErrorState'
 import FilterBar from '@components/FilterBar/FilterBar'
 import Header from '@components/Header'
 import ListingSkeleton from '@components/Listing/components/ListingSkeleton'
 import ListingCard from '@components/Listing/Listing'
+import NoPosts from '@components/NoPosts/NoPosts'
 import TabHeader from '@components/TabHeader'
 import { Listing } from '@constants/types/Listing'
 import useColors from '@constants/useColors'
@@ -22,8 +25,17 @@ export default function ListingsScreen() {
   const router = useRouter()
   const queryClient = useQueryClient()
   const { onScroll } = useTabBar()
-  const { data, fetchNextPage, hasNextPage, isLoading, isFetchingNextPage, refetch, isRefetching } =
-    useListingsInfinity('offer', 20)
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isLoading,
+    isFetchingNextPage,
+    refetch,
+    isRefetching,
+    isError,
+  } = useListingsInfinity('offer', 20)
+
   const listings = data?.pages.flat() ?? []
 
   const handlePress = (item: Listing) => {
@@ -44,6 +56,34 @@ export default function ListingsScreen() {
               <ListingSkeleton key={index} />
             ))}
           </YStack>
+        ) : isError ? (
+          <ScrollView
+            contentContainerStyle={{ flexGrow: 1 }}
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl
+                refreshing={isRefetching}
+                onRefresh={refetch}
+                tintColor={colors.brand}
+              />
+            }
+          >
+            <ErrorState />
+          </ScrollView>
+        ) : listings.length === 0 ? (
+          <ScrollView
+            contentContainerStyle={{ flexGrow: 1 }}
+            showsVerticalScrollIndicator={false}
+            refreshControl={
+              <RefreshControl
+                refreshing={isRefetching}
+                onRefresh={refetch}
+                tintColor={colors.brand}
+              />
+            }
+          >
+            <NoPosts postSide="offer" icon={Store} />
+          </ScrollView>
         ) : (
           <FlatList
             data={listings}

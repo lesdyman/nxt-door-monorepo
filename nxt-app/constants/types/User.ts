@@ -1,7 +1,7 @@
 type User = {
   id: string
   name: string
-  avatar: string
+  avatar: string | null
   onboarded: boolean
   rating: number
   reviewsCount: number

@@ -19,9 +19,14 @@ interface Props {
   // "Sign up with Google", or "Continue with Google" as button text.
   label?: 'Sign in with Google' | 'Sign up with Google' | 'Continue with Google'
   onPress?: () => void
+  disabled?: boolean
 }
 
-const GoogleLoginButton: React.FC<Props> = ({ label = 'Sign in with Google', onPress }) => {
+const GoogleLoginButton: React.FC<Props> = ({
+  label = 'Sign in with Google',
+  onPress,
+  disabled,
+}) => {
   const colorScheme = useColorScheme()
   const palette = colorScheme === 'light' ? GOOGLE_LIGHT : GOOGLE_DARK
 
@@ -33,8 +38,10 @@ const GoogleLoginButton: React.FC<Props> = ({ label = 'Sign in with Google', onP
       borderWidth={1}
       borderColor={palette.stroke}
       px={16}
+      opacity={disabled ? 0.6 : 1}
       pressStyle={{ opacity: 0.85 }}
       onPress={onPress}
+      disabled={disabled}
     >
       <XStack items="center" justify="center" gap={12} flex={1}>
         <Image src={require('../assets/g-logo.png')} width={20} height={20} />
