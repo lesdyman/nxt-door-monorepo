@@ -62,8 +62,10 @@ export default function HomeScreen() {
             <NoPostsYet placeName={place?.name || 'N/A'} />
           ) : (
             <>
-              <LatestOffers offers={offers} isLoading={isOffersLoading} />
-              <NeighborsAreLooking requests={requests} isLoading={isRequestsLoading} />
+              {offers.length > 0 && <LatestOffers offers={offers} isLoading={isOffersLoading} />}
+              {requests.length > 0 && (
+                <NeighborsAreLooking requests={requests} isLoading={isRequestsLoading} />
+              )}
             </>
           )}
         </YStack>
