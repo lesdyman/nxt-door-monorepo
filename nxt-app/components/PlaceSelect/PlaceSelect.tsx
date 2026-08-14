@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { Check, ChevronDown } from 'lucide-react-native'
-import { Adapt, Select, Sheet, Text } from 'tamagui'
+import { Adapt, Select, Sheet } from 'tamagui'
 
 import useColors from '@constants/useColors'
 import placesService from '@services/placesService'

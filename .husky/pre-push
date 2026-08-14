@@ -1,0 +1,1 @@
+pnpm --filter nxt-app lint && pnpm --filter nxt-backend lint
