@@ -14,7 +14,7 @@ interface CreateUserPayload {
 
 interface UpdateUserPayload {
   name?: string
-  avatar?: string
+  avatar?: string | null
   placeId?: string
 }
 

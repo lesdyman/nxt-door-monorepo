@@ -36,7 +36,7 @@ model Listing {
   category    String
   status      ListingStatus  @default(active)
   userId      String
-  user        User           @relation(fields: [userId], references: [id])
+  user        User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   latitude    Float
   longitude   Float
   address     String

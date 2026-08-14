@@ -57,13 +57,13 @@ const UserCard: React.FC<Props> = ({ userCardData }) => {
         borderColor={colors.border}
       >
         <Text color={colors.textPrimary} fontSize={16} lineHeight={24}>
-          ⭐ {userCardData.rating ? `${userCardData.rating} Rating` : ''}
+          ⭐ {userCardData.rating ? `${userCardData.rating} Rating` : 'No Rating'}
         </Text>
         <Text color={colors.textSecondary} fontSize={16} lineHeight={24}>
           ·
         </Text>
         <Text color={colors.textMuted} fontSize={16} lineHeight={24}>
-          {userCardData.reviewsCount ? `${userCardData.reviewsCount} Reviews` : ''}
+          {userCardData.reviewsCount ? `${userCardData.reviewsCount} Reviews` : '0 Reviews'}
         </Text>
       </XStack>
     </YStack>

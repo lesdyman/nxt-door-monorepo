@@ -4,13 +4,13 @@ import { useRouter } from 'expo-router'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Text, YStack } from 'tamagui'
 
+import AvatarPicker from '@components/AvatarPicker/AvatarPicker'
 import BrandButton from '@components/BrandButton'
 import FormInput from '@components/FormInput'
 import useColors from '@constants/useColors'
 import { useOnboarding } from '@contexts/OnboardingContext'
 import { authClient } from '@services/authClient'
 
-import AvatarPicker from './components/AvatarPicker'
 import OnboardingStepHeader from './components/OnboardingStepHeader'
 
 const ConfirmProfile = () => {

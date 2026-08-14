@@ -34,6 +34,8 @@ export const darkColors = {
 
   // semantic
   notificationDot: '#E5484D',
+  dangerBg: '#2D1215',
+  dangerBgPressed: '#3D171B',
   offeringBadgeBg: '#0D2414',
   offeringBadgeText: '#46A758',
   requestBadgeBg: '#0D2847',
@@ -46,14 +48,7 @@ export const darkColors = {
   shadow: '#000000',
 } as const
 
-// Light theme mirrors the dark palette's roles:
-// - surfaceElevated (cards) goes brighter than background (opposite of dark mode,
-//   where elevated is a touch darker/richer than the page bg).
-// - surface (inputs) stays a shade darker than surfaceElevated, same as dark mode's
-//   "recessed" relationship, just inverted in lightness.
-// - saturated dark-mode accents (blue/green/red text on tinted chip backgrounds)
-//   are deepened for AA contrast against light backgrounds; tint backgrounds
-//   flip from near-black tints to near-white tints.
+// Light theme mirrors the dark palette's roles
 export const lightColors = {
   // backgrounds
   background: '#F7F8FA',
@@ -90,6 +85,8 @@ export const lightColors = {
 
   // semantic
   notificationDot: '#D7373D',
+  dangerBg: '#FDEBEC',
+  dangerBgPressed: '#FAD7D9',
   offeringBadgeBg: '#E3F5E8',
   offeringBadgeText: '#1D7A34',
   requestBadgeBg: '#E1EEFC',

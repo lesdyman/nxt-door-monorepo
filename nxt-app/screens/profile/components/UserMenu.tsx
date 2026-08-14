@@ -7,7 +7,7 @@ import authService from '@services/authService'
 
 import ITEMS from '../utils/SettingsItems'
 
-export const SettingsMenu = () => {
+export const UserMenu = () => {
   const colors = useColors()
   const router = useRouter()
 
